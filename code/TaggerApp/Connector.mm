@@ -1,0 +1,239 @@
+//
+//  Connector.cpp
+//  Tagger
+//
+//  Created by Andy Kwiatkowski on 2016-01-22.
+//
+//
+
+#include "Connector.hpp"
+
+#import <Foundation/Foundation.h>
+#include"XList.h"
+#include"TagManager.h"
+#include"Tag.h"
+#include"XStream.h"
+#include"XFileSystem.h"
+
+class AssetMapper
+{
+public:
+    void Add(PicId pid, const char *str )
+    {
+        if ( ids.Contains(pid))
+            return;
+        ids.Add(pid);
+        localIdentifiers.Add(str);
+    }
+    void GetLocalIdentifiers( XList<PicId> &picsToGet, XList<const XString*> &listToFill)
+    {
+        const XString *localIdArray = localIdentifiers.GetRawData();
+        for ( int i=0; i < picsToGet.Count(); i++ )
+        {
+            for ( int j=0; j < ids.Count(); j++ )
+            {
+                if ( picsToGet.Get(i) == ids.Get(j))
+                {
+                    listToFill.Add( &localIdArray[j] );
+                    break;
+                }
+            }
+        }
+    }
+    void WriteToStream( XStream *str )
+    {
+        str->Write(ids);
+        str->Write(localIdentifiers);
+    }
+    void ReadFromStream( XStream *str )
+    {
+        str->Read(&ids);
+        str->Read(&localIdentifiers);
+    }
+
+private:
+    XList<PicId> ids;
+    XList<XString> localIdentifiers;
+};
+
+AssetMapper assetMapper;
+XList<unsigned long> selectedPics;
+XList<Tag*> selectedTags;
+TagManager tagManager;
+XList<PicId> filteredPics;
+
+const char *tagsDBFilename ="tagsDB";
+
+void CalculateFilteredPics()
+{
+    filteredPics.Clear();
+    for ( int i=0; i < selectedTags.Count(); i++ )
+    {
+        const XList<PicId> &pics = selectedTags.Get(i)->GetTaggedPics();
+        for( int j=0; j < pics.Count(); j++ )
+        {
+            PicId p = pics.Get(j);
+            if ( !filteredPics.Contains(p))
+                filteredPics.Add(p);
+        }
+    }
+
+}
+void LoadTagManager()
+{
+    if ( !XFileSystem::UserFileExists(tagsDBFilename))
+        return;
+    XStream str;
+    XFileSystem::ReadUserFile(tagsDBFilename,&str );
+    tagManager.ReadFromStream(&str);
+    assetMapper.ReadFromStream(&str);
+}
+
+void SaveTagManager()
+{
+    XStream str;
+    tagManager.WriteToStream(&str);
+    assetMapper.WriteToStream(&str);
+    XFileSystem::WriteUserFile(tagsDBFilename,&str );
+}
+
+void Init()
+{
+  //  XFileSystem::DeleteUserFile(tagsDBFilename);
+    LoadTagManager();
+  //  tagManager.AddTag("babies");
+}
+
+namespace FilterMenuMediator
+{
+
+bool IsTagSelected( Tag *tag )
+{
+    return selectedTags.Contains(tag);
+}
+int GetNumSelectedPhotos()
+{
+    CalculateFilteredPics();
+    return filteredPics.Count();
+}
+// returns whethere the tag is selected or not now
+bool OnTagClicked( Tag *tag)
+{
+    if ( selectedTags.Contains(tag))
+    {
+        selectedTags.Remove(tag);
+        return false;
+    }
+    selectedTags.Add(tag);
+    return true;
+}
+int GetNumberOfTags()
+{
+    return tagManager.GetAllTags()->Count();
+}
+Tag *GetTagAtIndex( int index )
+{
+    return tagManager.GetAllTags()->Get(index);
+}
+}
+
+namespace TagsMenuMediator
+{
+    void OnClose()
+    {
+        SaveTagManager();
+    }
+    
+    Tag* GetTagAtIndex(int index )
+    {
+        return tagManager.GetAllTags()->Get(index);
+    }
+    
+    int GetSelectedPhotoCountWithTag( Tag * tag )
+    {
+        int count=0;
+        const XList<unsigned long> &taggedPics = tag->GetTaggedPics();
+        for ( int i=0; i < selectedPics.Count(); i++ )
+        {
+            if ( taggedPics.Contains(selectedPics.Get(i)) )
+                count++;
+        }
+        return count;
+    }
+    
+    void TagAllSelectedPics( Tag *tag )
+    {
+        for ( int i=0; i < selectedPics.Count(); i++ )
+        {
+            tag->TagPic( selectedPics.Get(i));
+        }
+    }
+    
+    void UnTagAllSelectedPics( Tag *tag )
+    {
+        for ( int i=0; i < selectedPics.Count(); i++ )
+        {
+            tag->UnTagPic( selectedPics.Get(i));
+        }
+    }
+    
+    
+    int GetNumberOfTags()
+    {
+        return tagManager.GetAllTags()->Count();
+    }
+    
+    int GetNumberOfSelectedPhotos()
+    {
+        return selectedPics.Count();
+    }
+    
+    bool AttemptAddTag( const char * tag )
+    {
+        tagManager.AddTag( tag );
+        return true;    // TODO: need failure state 
+    }
+}
+namespace GridViewController{
+    bool IsAssetSelected(PicId hash)
+    {
+        return selectedPics.Contains(hash);
+    }
+    void SelectAsset(PicId hash, const char *localIdentifier )
+    {
+        selectedPics.Add(hash);
+        assetMapper.Add(hash, localIdentifier );
+    }
+    void DeSelectAsset(PicId hash )
+    {
+        ASSERT( selectedPics.Contains(hash));
+        selectedPics.Remove(hash);
+    }
+    bool GetLocalIdentifiersToLoad( XList<const XString*> &listToFill )
+    {
+        ASSERT( listToFill.Count() == 0 );
+        if ( selectedTags.Count() <=0 )
+            return false;
+        assetMapper.GetLocalIdentifiers( filteredPics, listToFill );
+        return true;
+        
+    }
+}
+
+
+const char *GetDocumentsDirectory()
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = paths.firstObject;
+    return [basePath UTF8String];
+}
+
+class Connector
+{
+public:
+    Connector()
+    {
+        Init();
+    }
+};
+Connector connector;    // just to run that constructor

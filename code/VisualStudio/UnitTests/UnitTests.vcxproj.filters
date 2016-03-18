@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{14725c29-f41a-4993-910b-5db0b5653a71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{af8f9188-83f7-486f-85b5-76a4a75e6534}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Engine\source\CustomTypes.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\source\debugFuncs.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\source\Tag.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\source\TagManager.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\source\XList.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\source\XStream.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\source\XString.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\tests\catch.hpp">
+      <Filter>tests</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Engine\source\debugFuncs.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\source\Tag.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\source\TagManager.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\source\XString.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\tests\main.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\tests\test_Tag.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\tests\test_TagManager.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\tests\test_XList.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\tests\test_XString.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\tests\test_XStream.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\source\XStream.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
