@@ -526,6 +526,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sfg.Tagger;
 				PRODUCT_NAME = Tagger;
+				PROVISIONING_PROFILE = "5693723f-8a0e-4c78-a907-e96787e9a3dd";
 			};
 			name = Debug;
 		};
@@ -534,11 +535,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Stir Fry Games (3X9T8X7799)";
 				INFOPLIST_FILE = TaggerApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sfg.Tagger;
 				PRODUCT_NAME = Tagger;
+				PROVISIONING_PROFILE = "76d45a9f-7060-411e-9c38-f434bb9e88c5";
 			};
 			name = Release;
 		};
