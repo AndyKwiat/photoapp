@@ -97,6 +97,52 @@ PHFetchResult *FetchPhotos()
     
     // Begin caching assets in and around collection view's visible rect.
     [self updateCachedAssets];
+    
+    // add bottom tag selection stuff
+    
+    // parent view container
+    CGFloat selfWidth = self.view.frame.size.width;
+    CGFloat selfHeight = self.view.frame.size.height;
+    CGFloat newWidth = 250;
+    CGFloat newHeight = 100;
+    UIView *parentView = [[UIView alloc] initWithFrame:CGRectMake(selfWidth/2-newWidth/2,
+                                                                selfHeight-newHeight,
+                                                                newWidth, newHeight)];
+    parentView.backgroundColor = [UIColor colorWithRed:0.2 green:1.0 blue:1.0 alpha:1];
+    UIWindow *mainWindow = [[UIApplication sharedApplication] keyWindow];
+    [mainWindow.subviews[0] addSubview:parentView];
+
+    // "enter tag" text field
+    CGRect rect = CGRectMake(newWidth/2-100/2,3,100,30);
+    UITextField *textField = [[UITextField alloc] initWithFrame:rect];
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.font = [UIFont systemFontOfSize:15];
+    textField.placeholder = @"Tag";
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    textField.keyboardType = UIKeyboardTypeDefault;
+    textField.returnKeyType = UIReturnKeyDone;
+    textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    [parentView addSubview:textField];
+    
+    // button tag scrollview Container
+    rect = CGRectMake(0,33,newWidth, newHeight-33);
+    UIScrollView* scrollView=[[UIScrollView alloc] initWithFrame:rect] ;
+    scrollView.contentSize = CGSizeMake(newWidth,newHeight*2);
+    [parentView addSubview:scrollView];
+    
+    
+    // button tags
+    UIButton* button =[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    button.frame = CGRectMake(10,10,50,30);
+    [button setTitle:@"TAG" forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor blackColor];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    button.layer.cornerRadius = 10;
+    button.layer.borderWidth = 1;
+    button.layer.borderColor = [UIColor blueColor].CGColor;
+    [scrollView addSubview:button];
+
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
