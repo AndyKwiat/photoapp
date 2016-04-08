@@ -22,3 +22,4 @@ void TagManager::ReadFromStream(XStream *stream)
 {
     stream->ReadPtrList(&m_Tags);
 }
+

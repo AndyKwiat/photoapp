@@ -143,23 +143,63 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A17AE8581C84B5FC00D1B839 /* View Controllers */ = {
+		A1361CFC1CB806CC003AD9AE /* TagsMenu */ = {
 			isa = PBXGroup;
 			children = (
 				A104A66B1C52A1000018A0B3 /* TagsMenuTableViewController.h */,
 				A104A66C1C52A1000018A0B3 /* TagsMenuTableViewController.mm */,
 				A104A66E1C52A1EB0018A0B3 /* TagsMenuCell.h */,
 				A104A66F1C52A1EB0018A0B3 /* TagsMenuCell.mm */,
+			);
+			name = TagsMenu;
+			sourceTree = "<group>";
+		};
+		A1361CFD1CB806ED003AD9AE /* FilterMenu */ = {
+			isa = PBXGroup;
+			children = (
 				A17AE8551C84B5D600D1B839 /* FilterMenuTableViewController.h */,
 				A17AE8561C84B5D600D1B839 /* FilterMenuTableViewController.mm */,
-				A7CF22EF1933F11D00E6E88E /* AAPLRootListViewController.h */,
-				A7CF22F01933F11D00E6E88E /* AAPLRootListViewController.m */,
-				A7CF22F21933F39000E6E88E /* AAPLAssetGridViewController.h */,
-				A7CF22F31933F39000E6E88E /* AAPLAssetGridViewController.mm */,
-				A7CF22FB1933FD2600E6E88E /* AAPLAssetViewController.h */,
-				A7CF22FC1933FD2600E6E88E /* AAPLAssetViewController.m */,
+			);
+			name = FilterMenu;
+			sourceTree = "<group>";
+		};
+		A1361CFE1CB8073A003AD9AE /* MainGridView */ = {
+			isa = PBXGroup;
+			children = (
 				A7CF22F81933F51500E6E88E /* AAPLGridViewCell.h */,
 				A7CF22F91933F51500E6E88E /* AAPLGridViewCell.m */,
+				A7CF22F21933F39000E6E88E /* AAPLAssetGridViewController.h */,
+				A7CF22F31933F39000E6E88E /* AAPLAssetGridViewController.mm */,
+			);
+			name = MainGridView;
+			sourceTree = "<group>";
+		};
+		A1361CFF1CB80774003AD9AE /* SinglePicView */ = {
+			isa = PBXGroup;
+			children = (
+				A7CF22FB1933FD2600E6E88E /* AAPLAssetViewController.h */,
+				A7CF22FC1933FD2600E6E88E /* AAPLAssetViewController.m */,
+			);
+			name = SinglePicView;
+			sourceTree = "<group>";
+		};
+		A1361D001CB80790003AD9AE /* RootAlbumSelection */ = {
+			isa = PBXGroup;
+			children = (
+				A7CF22EF1933F11D00E6E88E /* AAPLRootListViewController.h */,
+				A7CF22F01933F11D00E6E88E /* AAPLRootListViewController.m */,
+			);
+			name = RootAlbumSelection;
+			sourceTree = "<group>";
+		};
+		A17AE8581C84B5FC00D1B839 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A1361D001CB80790003AD9AE /* RootAlbumSelection */,
+				A1361CFF1CB80774003AD9AE /* SinglePicView */,
+				A1361CFE1CB8073A003AD9AE /* MainGridView */,
+				A1361CFD1CB806ED003AD9AE /* FilterMenu */,
+				A1361CFC1CB806CC003AD9AE /* TagsMenu */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -527,6 +567,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sfg.Tagger;
 				PRODUCT_NAME = Tagger;
 				PROVISIONING_PROFILE = "5693723f-8a0e-4c78-a907-e96787e9a3dd";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -541,6 +582,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sfg.Tagger;
 				PRODUCT_NAME = Tagger;
 				PROVISIONING_PROFILE = "76d45a9f-7060-411e-9c38-f434bb9e88c5";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

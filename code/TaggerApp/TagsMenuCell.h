@@ -12,6 +12,7 @@
 @interface TagsMenuCell : UITableViewCell
 
 @property (nonatomic) Tag *photoTag;
+@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 -(void)SetLabel:(NSString*)label;
 -(void)SetPhotoCount:(int)count;
 @end

@@ -193,6 +193,10 @@ namespace TagsMenuMediator
         tagManager.AddTag( tag );
         return true;    // TODO: need failure state 
     }
+    void DeleteTag( Tag *tag)
+    {
+        tagManager.RemoveTag(tag);
+    }
 }
 namespace GridViewController{
     bool IsAssetSelected(PicId hash)

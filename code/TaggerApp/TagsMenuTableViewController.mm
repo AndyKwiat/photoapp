@@ -23,6 +23,7 @@ namespace TagsMenuMediator
     void UnTagAllSelectedPics( Tag *tag );
     void OnClose();
     bool AttemptAddTag( const char *);
+    void DeleteTag( Tag *);
 }
 @implementation TagsMenuTableViewController
 static NSString * const CellReuseIdentifier = @"TagsCell";
@@ -63,7 +64,30 @@ static NSString * const CellReuseIdentifier = @"TagsCell";
     [cell SetLabel: [NSString stringWithUTF8String:tag->GetName().c_str()]];
     [cell SetPhotoCount:TagsMenuMediator::GetSelectedPhotoCountWithTag(tag)];
     cell.photoTag = tag;
+    cell.deleteButton.tag = indexPath.item;
+    [cell.deleteButton addTarget:self action:@selector(deleteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
+}
+
+-(void)deleteButtonClicked:(UIButton*)sender
+{
+    Tag *tag = TagsMenuMediator::GetTagAtIndex((int)sender.tag);
+    int count = tag->GetTaggedPics().Count();
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Delete tag?" message:[NSString stringWithFormat:@"%d photos using tag %s",count,tag->GetName().c_str()] preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                      {
+                          TagsMenuMediator::DeleteTag(tag);
+                          [alert dismissViewControllerAnimated:YES completion:nil];
+                          [self.tableView reloadData];
+                      }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                      {
+                          [alert dismissViewControllerAnimated:YES completion:nil];
+                      }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
