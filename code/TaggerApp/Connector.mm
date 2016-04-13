@@ -199,6 +199,9 @@ namespace TagsMenuMediator
     }
 }
 namespace GridViewController{
+    bool IsTagSelected( Tag *tag ){
+        return selectedTags.Contains(tag);
+    }
     void OnTagClicked(  Tag * tag )
     {
         FilterMenuMediator::OnTagClicked(tag);

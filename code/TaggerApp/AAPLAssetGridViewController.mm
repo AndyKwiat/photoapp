@@ -24,8 +24,10 @@ namespace GridViewController{
     void SelectAsset(PicId hash, const char *localIdentifier);
     void DeSelectAsset(PicId hash );
     bool GetLocalIdentifiersToLoad( XList<const XString*> &listToFill );
+
     void OnTextFilterChange( const char *textFilterContents, XList< Tag*> &tagsToShow);
     void OnTagClicked(  Tag * tag);
+    bool IsTagSelected( Tag *tag);
 }
 
 
@@ -115,7 +117,7 @@ PHFetchResult *FetchPhotos()
     UIView *parentView = [[UIView alloc] initWithFrame:CGRectMake(selfWidth/2-newWidth/2,
                                                                 selfHeight-newHeight,
                                                                 newWidth, newHeight)];
-    parentView.backgroundColor = [UIColor colorWithRed:0.2 green:1.0 blue:1.0 alpha:1];
+   // parentView.backgroundColor = [UIColor colorWithRed:0.2 green:1.0 blue:1.0 alpha:1];
     UIWindow *mainWindow = [[UIApplication sharedApplication] keyWindow];
     [mainWindow.subviews[0] addSubview:parentView];
 
@@ -123,6 +125,9 @@ PHFetchResult *FetchPhotos()
     CGRect rect = CGRectMake(newWidth/2-100/2,1,100,30);
     UITextField *textField = [[UITextField alloc] initWithFrame:rect];
     textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.layer.borderColor = tagButtonBackground.CGColor;
+    textField.layer.borderWidth = 1.0;
+    textField.layer.cornerRadius = 10;
     textField.font = [UIFont systemFontOfSize:15];
     textField.placeholder = @"Tag";
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -148,9 +153,14 @@ PHFetchResult *FetchPhotos()
 UIScrollView* _tagScrollView;
 XList<UIButton*> _buttonList;
 XList< Tag*> _buttonTagList;
+UIColor *tagButtonBackground = [UIColor colorWithRed:0 green:122.0/255.0 blue:1.0 alpha:1.0];
+UIColor *tagButtonBackgroundSelected = [UIColor colorWithRed:.5 green:222.0/255.0 blue:1.0 alpha:1.0];
+UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8 alpha:1.0];
 -(void)tagButtonClicked:(id) sender{
-    Tag * tag= _buttonTagList.Get((int)((UIButton*)sender).tag);
+    UIButton *button =(UIButton*)sender;
+    Tag * tag= _buttonTagList.Get((int)button.tag);
     GridViewController::OnTagClicked(tag);
+    SetTagButtonState(tag, button);
     [self reloadPhotos];
     
 }
@@ -163,6 +173,8 @@ XList< Tag*> _buttonTagList;
     }
     _buttonList.Clear();
     _buttonTagList.Clear();
+    
+    // add button for each tag
     int xoffset =0;
     int yoffset = 0;
     int maxx = 240;
@@ -188,11 +200,11 @@ XList< Tag*> _buttonTagList;
         xoffset += width+padX;
 
         [button setTitle:name forState:UIControlStateNormal];
-        button.backgroundColor = [UIColor blackColor];
+        SetTagButtonState( t,button);
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         button.layer.cornerRadius = 10;
         button.layer.borderWidth = 1;
-        button.layer.borderColor = [UIColor blueColor].CGColor;
+        button.layer.borderColor = tagButtonBorderColor.CGColor;
         [_tagScrollView addSubview:button];
         button.tag = _buttonTagList.Count();
         _buttonList.Add(button);
@@ -200,6 +212,14 @@ XList< Tag*> _buttonTagList;
         
     }
     
+}
+
+void SetTagButtonState( Tag *tag, UIButton* button){
+    button.backgroundColor = tagButtonBackground;
+    if ( GridViewController::IsTagSelected(tag)){
+        button.backgroundColor = tagButtonBackgroundSelected;
+    }
+
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Configure the destination AAPLAssetViewController.
