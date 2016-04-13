@@ -24,7 +24,8 @@ namespace GridViewController{
     void SelectAsset(PicId hash, const char *localIdentifier);
     void DeSelectAsset(PicId hash );
     bool GetLocalIdentifiersToLoad( XList<const XString*> &listToFill );
-    void OnTextFilterChange( const char *textFilterContents, XList<const Tag*> &tagsToShow);
+    void OnTextFilterChange( const char *textFilterContents, XList< Tag*> &tagsToShow);
+    void OnTagClicked(  Tag * tag);
 }
 
 
@@ -77,10 +78,14 @@ PHFetchResult *FetchPhotos()
     [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+-(void) reloadPhotos{
     self.assetsFetchResults = FetchPhotos();
     [self.collectionView reloadData];
+    
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self reloadPhotos];
     // Determine the size of the thumbnails to request from the PHCachingImageManager
 	CGFloat scale = [UIScreen mainScreen].scale;
 	CGSize cellSize = ((UICollectionViewFlowLayout *)self.collectionViewLayout).itemSize;
@@ -142,14 +147,22 @@ PHFetchResult *FetchPhotos()
 
 UIScrollView* _tagScrollView;
 XList<UIButton*> _buttonList;
+XList< Tag*> _buttonTagList;
+-(void)tagButtonClicked:(id) sender{
+    Tag * tag= _buttonTagList.Get((int)((UIButton*)sender).tag);
+    GridViewController::OnTagClicked(tag);
+    [self reloadPhotos];
+    
+}
 -(void)updateTagList:(const char*)startsWith {
-    XList<const Tag*> tagList;
+    XList< Tag*> tagList;
     GridViewController::OnTextFilterChange(startsWith, tagList);
     // clear buttons
     foreach(UIButton*, b, _buttonList){
         [b removeFromSuperview];
     }
     _buttonList.Clear();
+    _buttonTagList.Clear();
     int xoffset =0;
     int yoffset = 0;
     int maxx = 240;
@@ -157,10 +170,10 @@ XList<UIButton*> _buttonList;
     int padY = 4;
     int innerPadX = 12;
     
-    foreach ( const Tag*, t, tagList ){
+    foreach (  Tag*, t, tagList ){
         NSString *name = [NSString stringWithUTF8String:t->GetName().c_str()];
         UIButton* button =[UIButton buttonWithType:UIButtonTypeRoundedRect];
-
+        [button addTarget:self action:@selector(tagButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         NSDictionary *attributes = @{NSFontAttributeName:button.titleLabel.font};
         CGSize stringSize = [name sizeWithAttributes:attributes];
         int width = stringSize.width + innerPadX;
@@ -173,7 +186,7 @@ XList<UIButton*> _buttonList;
 
         button.frame = CGRectMake(10+xoffset,10+yoffset,width,height);
         xoffset += width+padX;
-        
+
         [button setTitle:name forState:UIControlStateNormal];
         button.backgroundColor = [UIColor blackColor];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -181,7 +194,9 @@ XList<UIButton*> _buttonList;
         button.layer.borderWidth = 1;
         button.layer.borderColor = [UIColor blueColor].CGColor;
         [_tagScrollView addSubview:button];
+        button.tag = _buttonTagList.Count();
         _buttonList.Add(button);
+        _buttonTagList.Add(t);
         
     }
     

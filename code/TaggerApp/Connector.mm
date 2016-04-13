@@ -107,7 +107,7 @@ void Init()
 namespace FilterMenuMediator
 {
 
-    bool IsTagSelected( Tag *tag )
+    bool IsTagSelected(  Tag *tag )
     {
         return selectedTags.Contains(tag);
     }
@@ -199,6 +199,11 @@ namespace TagsMenuMediator
     }
 }
 namespace GridViewController{
+    void OnTagClicked(  Tag * tag )
+    {
+        FilterMenuMediator::OnTagClicked(tag);
+        CalculateFilteredPics();
+    }
     bool IsAssetSelected(PicId hash)
     {
         return selectedPics.Contains(hash);
@@ -222,7 +227,7 @@ namespace GridViewController{
         return true;
         
     }
-    void OnTextFilterChange( const char *textFilterContents, XList<const Tag*> &tagsToShow)
+    void OnTextFilterChange( const char *textFilterContents, XList< Tag*> &tagsToShow)
     {
         const XList<Tag*> *list = tagManager.GetAllTags();
         tagsToShow.Clear();
