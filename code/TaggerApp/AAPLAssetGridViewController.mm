@@ -17,12 +17,14 @@
 #include"CustomTypes.h"
 #include"XList.h"
 #include"XString.h"
+#include"Tag.h"
 
 namespace GridViewController{
     bool IsAssetSelected(PicId hash);
     void SelectAsset(PicId hash, const char *localIdentifier);
     void DeSelectAsset(PicId hash );
     bool GetLocalIdentifiersToLoad( XList<const XString*> &listToFill );
+    void OnTextFilterChange( const char *textFilterContents, XList<const Tag*> &tagsToShow);
 }
 
 
@@ -113,7 +115,7 @@ PHFetchResult *FetchPhotos()
     [mainWindow.subviews[0] addSubview:parentView];
 
     // "enter tag" text field
-    CGRect rect = CGRectMake(newWidth/2-100/2,3,100,30);
+    CGRect rect = CGRectMake(newWidth/2-100/2,1,100,30);
     UITextField *textField = [[UITextField alloc] initWithFrame:rect];
     textField.borderStyle = UITextBorderStyleRoundedRect;
     textField.font = [UIFont systemFontOfSize:15];
@@ -124,27 +126,66 @@ PHFetchResult *FetchPhotos()
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [parentView addSubview:textField];
-    
+
     // button tag scrollview Container
-    rect = CGRectMake(0,33,newWidth, newHeight-33);
+    rect = CGRectMake(0,29,newWidth, newHeight-30);
     UIScrollView* scrollView=[[UIScrollView alloc] initWithFrame:rect] ;
     scrollView.contentSize = CGSizeMake(newWidth,newHeight*2);
     [parentView addSubview:scrollView];
-    
-    
-    // button tags
-    UIButton* button =[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button.frame = CGRectMake(10,10,50,30);
-    [button setTitle:@"TAG" forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor blackColor];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.layer.cornerRadius = 10;
-    button.layer.borderWidth = 1;
-    button.layer.borderColor = [UIColor blueColor].CGColor;
-    [scrollView addSubview:button];
+    _tagScrollView = scrollView;
+
+    [self updateTagList:""];
+
 
 }
 
+
+UIScrollView* _tagScrollView;
+XList<UIButton*> _buttonList;
+-(void)updateTagList:(const char*)startsWith {
+    XList<const Tag*> tagList;
+    GridViewController::OnTextFilterChange(startsWith, tagList);
+    // clear buttons
+    foreach(UIButton*, b, _buttonList){
+        [b removeFromSuperview];
+    }
+    _buttonList.Clear();
+    int xoffset =0;
+    int yoffset = 0;
+    int maxx = 240;
+    int padX = 4;
+    int padY = 4;
+    int innerPadX = 12;
+    
+    foreach ( const Tag*, t, tagList ){
+        NSString *name = [NSString stringWithUTF8String:t->GetName().c_str()];
+        UIButton* button =[UIButton buttonWithType:UIButtonTypeRoundedRect];
+
+        NSDictionary *attributes = @{NSFontAttributeName:button.titleLabel.font};
+        CGSize stringSize = [name sizeWithAttributes:attributes];
+        int width = stringSize.width + innerPadX;
+        const int height = 30;
+        
+        if ( xoffset + width > maxx ){
+            xoffset = 0;
+            yoffset += height + padY;
+        }
+
+        button.frame = CGRectMake(10+xoffset,10+yoffset,width,height);
+        xoffset += width+padX;
+        
+        [button setTitle:name forState:UIControlStateNormal];
+        button.backgroundColor = [UIColor blackColor];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        button.layer.cornerRadius = 10;
+        button.layer.borderWidth = 1;
+        button.layer.borderColor = [UIColor blueColor].CGColor;
+        [_tagScrollView addSubview:button];
+        _buttonList.Add(button);
+        
+    }
+    
+}
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Configure the destination AAPLAssetViewController.
     if ([segue.destinationViewController isKindOfClass:[AAPLAssetViewController class]]) {

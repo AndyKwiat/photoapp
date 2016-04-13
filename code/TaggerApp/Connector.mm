@@ -107,34 +107,34 @@ void Init()
 namespace FilterMenuMediator
 {
 
-bool IsTagSelected( Tag *tag )
-{
-    return selectedTags.Contains(tag);
-}
-int GetNumSelectedPhotos()
-{
-    CalculateFilteredPics();
-    return filteredPics.Count();
-}
-// returns whethere the tag is selected or not now
-bool OnTagClicked( Tag *tag)
-{
-    if ( selectedTags.Contains(tag))
+    bool IsTagSelected( Tag *tag )
     {
-        selectedTags.Remove(tag);
-        return false;
+        return selectedTags.Contains(tag);
     }
-    selectedTags.Add(tag);
-    return true;
-}
-int GetNumberOfTags()
-{
-    return tagManager.GetAllTags()->Count();
-}
-Tag *GetTagAtIndex( int index )
-{
-    return tagManager.GetAllTags()->Get(index);
-}
+    int GetNumSelectedPhotos()
+    {
+        CalculateFilteredPics();
+        return filteredPics.Count();
+    }
+    // returns whethere the tag is selected or not now
+    bool OnTagClicked( Tag *tag)
+    {
+        if ( selectedTags.Contains(tag))
+        {
+            selectedTags.Remove(tag);
+            return false;
+        }
+        selectedTags.Add(tag);
+        return true;
+    }
+    int GetNumberOfTags()
+    {
+        return tagManager.GetAllTags()->Count();
+    }
+    Tag *GetTagAtIndex( int index )
+    {
+        return tagManager.GetAllTags()->Get(index);
+    }
 }
 
 namespace TagsMenuMediator
@@ -221,6 +221,14 @@ namespace GridViewController{
         assetMapper.GetLocalIdentifiers( filteredPics, listToFill );
         return true;
         
+    }
+    void OnTextFilterChange( const char *textFilterContents, XList<const Tag*> &tagsToShow)
+    {
+        const XList<Tag*> *list = tagManager.GetAllTags();
+        tagsToShow.Clear();
+        foreach( Tag*, t, (*list)){
+            tagsToShow.Add(t);
+        }
     }
 }
 
