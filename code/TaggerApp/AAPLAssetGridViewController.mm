@@ -46,10 +46,6 @@ static CGSize AssetGridThumbnailSize;
 bool IsInSelectMode = false;
 
 - (void)awakeFromNib {
-    self.imageManager = [[PHCachingImageManager alloc] init];
-    [self resetCachedAssets];
-    
-    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
     
     
 }
@@ -86,10 +82,10 @@ PHFetchResult *FetchPhotos()
     
 }
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self reloadPhotos];
+    
+
     // Determine the size of the thumbnails to request from the PHCachingImageManager
-	CGFloat scale = [UIScreen mainScreen].scale;
+    CGFloat scale = [UIScreen mainScreen].scale ;
 	CGSize cellSize = ((UICollectionViewFlowLayout *)self.collectionViewLayout).itemSize;
 	AssetGridThumbnailSize = CGSizeMake(cellSize.width * scale, cellSize.height * scale);
 
@@ -102,6 +98,13 @@ PHFetchResult *FetchPhotos()
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.imageManager = [[PHCachingImageManager alloc] init];
+    [self resetCachedAssets];
+    
+    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+
+     [self reloadPhotos];
     [super viewDidAppear:animated];
     
     // Begin caching assets in and around collection view's visible rect.

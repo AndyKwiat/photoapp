@@ -243,9 +243,11 @@ namespace GridViewController{
 
 const char *GetDocumentsDirectory()
 {
+  
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *basePath = paths.firstObject;
-    return [basePath UTF8String];
+    return [[basePath stringByAppendingString:@"/"] UTF8String];
 }
 
 class Connector
