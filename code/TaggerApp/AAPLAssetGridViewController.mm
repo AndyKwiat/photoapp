@@ -5,7 +5,7 @@
  Abstract:
  A view controller displaying a grid of assets.
  */
-
+#define SHOW_KEYBOARD_TAG 0
 #import "AAPLAssetGridViewController.h"
 
 #import "AAPLGridViewCell.h"
@@ -124,8 +124,10 @@ PHFetchResult *FetchPhotos()
     UIWindow *mainWindow = [[UIApplication sharedApplication] keyWindow];
     [mainWindow.subviews[0] addSubview:parentView];
 
+      CGRect rect = CGRectMake(newWidth/2-100/2,1,100,30);
     // "enter tag" text field
-    CGRect rect = CGRectMake(newWidth/2-100/2,1,100,30);
+#if SHOW_KEYBOARD_TAG
+  
     UITextField *textField = [[UITextField alloc] initWithFrame:rect];
     textField.borderStyle = UITextBorderStyleRoundedRect;
     textField.layer.borderColor = tagButtonBackground.CGColor;
@@ -139,7 +141,7 @@ PHFetchResult *FetchPhotos()
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [parentView addSubview:textField];
-
+#endif
     // button tag scrollview Container
     rect = CGRectMake(0,29,newWidth, newHeight-30);
     UIScrollView* scrollView=[[UIScrollView alloc] initWithFrame:rect] ;
