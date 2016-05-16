@@ -232,6 +232,9 @@ namespace GridViewController{
         ASSERT( selectedPics.Contains(hash));
         selectedPics.Remove(hash);
     }
+    void OnExitSelectionMode(){
+        selectedPics.Clear();
+    }
     bool GetLocalIdentifiersToLoad( XList<const XString*> &listToFill )
     {
         ASSERT( listToFill.Count() == 0 );

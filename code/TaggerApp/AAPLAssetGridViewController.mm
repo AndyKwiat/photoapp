@@ -28,6 +28,7 @@ namespace GridViewController{
     void OnTextFilterChange( const char *textFilterContents, XList< Tag*> &tagsToShow);
     void OnTagClicked(  Tag * tag, bool IsSelectMode);
     bool IsTagSelected( Tag *tag);
+    void OnExitSelectionMode();
 }
 
 
@@ -332,16 +333,17 @@ void SetTagButtonState( Tag *tag, UIButton* button){
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     AAPLGridViewCell *cell =(AAPLGridViewCell*) [collectionView cellForItemAtIndexPath:indexPath];
-    if ( !GridViewController::IsAssetSelected( cell.assetHash) )
-    {
-        GridViewController::SelectAsset( cell.assetHash ,[cell.representedAssetIdentifier UTF8String]);
-        [cell showCheckmark];
+    if ( IsInSelectMode ){
+        if ( !GridViewController::IsAssetSelected( cell.assetHash) )
+        {
+            GridViewController::SelectAsset( cell.assetHash ,[cell.representedAssetIdentifier UTF8String]);
+            [cell showCheckmark];
+        }
+        else{
+            GridViewController::DeSelectAsset( cell.assetHash );
+            [cell hideCheckmark];
+        }
     }
-    else{
-        GridViewController::DeSelectAsset( cell.assetHash );
-        [cell hideCheckmark];
-    }
-    
 }
 #pragma mark - UIScrollViewDelegate
 
@@ -457,6 +459,8 @@ void SetTagButtonState( Tag *tag, UIButton* button){
     {
         IsInSelectMode = false;
         _selectButton.title = @"Select";
+        GridViewController::OnExitSelectionMode();
+        [self reloadPhotos];
     }
 
 }
