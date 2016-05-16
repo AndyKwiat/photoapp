@@ -118,14 +118,14 @@ PHFetchResult *FetchPhotos()
     // parent view container
     CGFloat selfWidth = self.view.frame.size.width;
     CGFloat selfHeight = self.view.frame.size.height;
-    CGFloat newWidth = 250;
-    CGFloat newHeight = 75;
+    CGFloat newWidth = selfWidth-50;
+    CGFloat newHeight = 55;
     UIView *parentView = [[UIView alloc] initWithFrame:CGRectMake(selfWidth/2-newWidth/2,
                                                                 selfHeight-newHeight,
                                                                 newWidth, newHeight)];
-   // parentView.backgroundColor = [UIColor colorWithRed:0.2 green:1.0 blue:1.0 alpha:1];
+    parentView.backgroundColor = [UIColor colorWithRed:0.2 green:1.0 blue:1.0 alpha:1];
     UIWindow *mainWindow = [[UIApplication sharedApplication] keyWindow];
-    [mainWindow.subviews[0] addSubview:parentView];
+   // [mainWindow.subviews[0] addSubview:parentView];
 
       CGRect rect = CGRectMake(newWidth/2-100/2,1,100,30);
     // "enter tag" text field
@@ -146,11 +146,21 @@ PHFetchResult *FetchPhotos()
     [parentView addSubview:textField];
 #endif
     // button tag scrollview Container
-    rect = CGRectMake(0,29,newWidth, newHeight-30);
+    CGFloat scrollHt = 35;
+    rect = CGRectMake(0,0,newWidth, scrollHt);
     UIScrollView* scrollView=[[UIScrollView alloc] initWithFrame:rect] ;
-    scrollView.contentSize = CGSizeMake(newWidth,newHeight*2);
-    [parentView addSubview:scrollView];
+    scrollView.contentSize = CGSizeMake(newWidth*2,scrollHt);
+    //[parentView addSubview:scrollView];
     _tagScrollView = scrollView;
+    
+    UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithCustomView:scrollView];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    [items addObject:newButton];
+       for ( id obj in self.toolbarItems){
+        [items addObject:obj];
+    }
+    [self setToolbarItems:items];
+
 
     [self updateTagList:""];
 
@@ -199,12 +209,12 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
         int width = stringSize.width + innerPadX;
         const int height = 30;
         
-        if ( xoffset + width > maxx ){
-            xoffset = 0;
-            yoffset += height + padY;
-        }
+       // if ( xoffset + width > maxx ){
+        //    xoffset = 0;
+       //    yoffset += height + padY;
+       // }
 
-        button.frame = CGRectMake(10+xoffset,10+yoffset,width,height);
+        button.frame = CGRectMake(10+xoffset,yoffset,width,height);
         xoffset += width+padX;
 
         [button setTitle:name forState:UIControlStateNormal];

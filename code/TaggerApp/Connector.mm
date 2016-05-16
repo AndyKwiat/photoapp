@@ -203,6 +203,7 @@ namespace TagsMenuMediator
     }
 }
 namespace GridViewController{
+    
     bool IsTagSelected( Tag *tag ){
         return selectedTags.Contains(tag);
     }
@@ -212,6 +213,7 @@ namespace GridViewController{
             for ( int i=0; i < selectedPics.Count(); i++ ){
                 tag->TagPic(selectedPics.Get(i));
             }
+            SaveTagManager();
         }
         else{
             ToggleTagSelection(tag);
