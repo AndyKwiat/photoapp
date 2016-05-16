@@ -26,7 +26,7 @@ namespace GridViewController{
     bool GetLocalIdentifiersToLoad( XList<const XString*> &listToFill );
 
     void OnTextFilterChange( const char *textFilterContents, XList< Tag*> &tagsToShow);
-    void OnTagClicked(  Tag * tag);
+    void OnTagClicked(  Tag * tag, bool IsSelectMode);
     bool IsTagSelected( Tag *tag);
 }
 
@@ -166,7 +166,7 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
 -(void)tagButtonClicked:(id) sender{
     UIButton *button =(UIButton*)sender;
     Tag * tag= _buttonTagList.Get((int)button.tag);
-    GridViewController::OnTagClicked(tag);
+    GridViewController::OnTagClicked(tag,IsInSelectMode);
     SetTagButtonState(tag, button);
     [self reloadPhotos];
     

@@ -104,6 +104,16 @@ void Init()
   //  tagManager.AddTag("babies");
 }
 
+bool ToggleTagSelection ( Tag *tag ){
+    if ( selectedTags.Contains(tag))
+    {
+        selectedTags.Remove(tag);
+        return false;
+    }
+    selectedTags.Add(tag);
+    return true;
+
+}
 namespace FilterMenuMediator
 {
 
@@ -119,13 +129,7 @@ namespace FilterMenuMediator
     // returns whethere the tag is selected or not now
     bool OnTagClicked( Tag *tag)
     {
-        if ( selectedTags.Contains(tag))
-        {
-            selectedTags.Remove(tag);
-            return false;
-        }
-        selectedTags.Add(tag);
-        return true;
+        return ToggleTagSelection(tag);
     }
     int GetNumberOfTags()
     {
@@ -202,10 +206,17 @@ namespace GridViewController{
     bool IsTagSelected( Tag *tag ){
         return selectedTags.Contains(tag);
     }
-    void OnTagClicked(  Tag * tag )
+    void OnTagClicked(  Tag * tag , bool IsSelectionMode)
     {
-        FilterMenuMediator::OnTagClicked(tag);
-        CalculateFilteredPics();
+        if ( IsSelectionMode ){
+            for ( int i=0; i < selectedPics.Count(); i++ ){
+                tag->TagPic(selectedPics.Get(i));
+            }
+        }
+        else{
+            ToggleTagSelection(tag);
+            CalculateFilteredPics();
+        }
     }
     bool IsAssetSelected(PicId hash)
     {
