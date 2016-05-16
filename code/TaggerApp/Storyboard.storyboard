@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Photos-->
@@ -158,6 +157,10 @@
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="DZY-VO-BfV" userLabel="Checkmark">
                                             <rect key="frame" x="42" y="48" width="38" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="5yt-Pc-cfV"/>
+                                                <constraint firstAttribute="width" constant="38" id="QI3-gh-gPo"/>
+                                            </constraints>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -167,8 +170,6 @@
                                     <constraint firstItem="gvb-Xz-yyo" firstAttribute="top" secondItem="Ugt-80-ozT" secondAttribute="top" id="1Fk-Kt-e5p"/>
                                     <constraint firstItem="DZY-VO-BfV" firstAttribute="trailing" secondItem="gvb-Xz-yyo" secondAttribute="trailing" id="BMR-0B-Mlf"/>
                                     <constraint firstItem="xmI-Ht-N22" firstAttribute="top" secondItem="Ugt-80-ozT" secondAttribute="top" id="EU9-sD-EEZ"/>
-                                    <constraint firstItem="DZY-VO-BfV" firstAttribute="top" secondItem="Ugt-80-ozT" secondAttribute="topMargin" constant="40" id="JWM-Rj-kBp"/>
-                                    <constraint firstItem="DZY-VO-BfV" firstAttribute="leading" secondItem="Ugt-80-ozT" secondAttribute="leadingMargin" constant="34" id="MlY-pG-pj7"/>
                                     <constraint firstAttribute="bottom" secondItem="gvb-Xz-yyo" secondAttribute="bottom" id="TYw-0w-a9V"/>
                                     <constraint firstItem="DZY-VO-BfV" firstAttribute="bottom" secondItem="gvb-Xz-yyo" secondAttribute="bottom" id="XC3-qt-nks"/>
                                     <constraint firstAttribute="trailing" secondItem="gvb-Xz-yyo" secondAttribute="trailing" id="kcu-eN-f8I"/>
