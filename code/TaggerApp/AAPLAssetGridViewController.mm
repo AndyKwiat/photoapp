@@ -34,6 +34,8 @@ namespace GridViewController{
 @interface AAPLAssetGridViewController () <PHPhotoLibraryChangeObserver>
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *addButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *selectButton;
+
+
 @property (nonatomic, strong) PHCachingImageManager *imageManager;
 @property CGRect previousPreheatRect;
 @end
@@ -88,7 +90,7 @@ PHFetchResult *FetchPhotos()
     CGFloat scale = [UIScreen mainScreen].scale ;
 	CGSize cellSize = ((UICollectionViewFlowLayout *)self.collectionViewLayout).itemSize;
 	AssetGridThumbnailSize = CGSizeMake(cellSize.width * scale, cellSize.height * scale);
-
+    
     // Add button to the navigation bar if the asset collection supports adding content.
     /*if (!self.assetCollection || [self.assetCollection canPerformEditOperation:PHCollectionEditOperationAddContent]) {
         self.navigationItem.rightBarButtonItem = self.addButton;
@@ -116,7 +118,7 @@ PHFetchResult *FetchPhotos()
     CGFloat selfWidth = self.view.frame.size.width;
     CGFloat selfHeight = self.view.frame.size.height;
     CGFloat newWidth = 250;
-    CGFloat newHeight = 100;
+    CGFloat newHeight = 75;
     UIView *parentView = [[UIView alloc] initWithFrame:CGRectMake(selfWidth/2-newWidth/2,
                                                                 selfHeight-newHeight,
                                                                 newWidth, newHeight)];

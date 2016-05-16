@@ -188,11 +188,6 @@
                         </connections>
                     </collectionView>
                     <toolbarItems>
-                        <barButtonItem image="filter2" id="t47-oH-fuc" userLabel="FiltersButton">
-                            <connections>
-                                <segue destination="Jrs-JK-ghV" kind="show" id="TKx-MJ-OL8"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="yct-AK-J4X"/>
                         <barButtonItem image="tag4" id="gxJ-QZ-Jfr" userLabel="TagsButton">
                             <connections>
@@ -340,7 +335,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23 photos selected" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MX9-R6-wmd">
-                            <rect key="frame" x="0.0" y="64" width="600" height="82"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="82"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -348,7 +343,7 @@
                         </label>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TagsCell" id="aaK-vY-FSW" customClass="TagsMenuCell">
-                                <rect key="frame" x="0.0" y="174" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="110" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aaK-vY-FSW" id="YYU-8N-G2B">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -390,7 +385,6 @@
     </scenes>
     <resources>
         <image name="checkmark" width="66" height="66"/>
-        <image name="filter2" width="20" height="20"/>
         <image name="tag4" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
