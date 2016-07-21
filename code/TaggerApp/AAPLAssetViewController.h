@@ -14,5 +14,7 @@
 
 @property (nonatomic, strong) PHAsset *asset;
 @property (nonatomic, strong) PHAssetCollection *assetCollection;
+@property (nonatomic, strong) PHFetchResult *assetsFetchResults;
+@property (nonatomic) NSInteger assetFetchIndex;
 
 @end

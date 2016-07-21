@@ -216,6 +216,8 @@ void SetTagButtonState( Tag *tag, UIButton* button){
         NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender];
         assetViewController.asset = self.assetsFetchResults[indexPath.item];
         assetViewController.assetCollection = self.assetCollection;
+        assetViewController.assetsFetchResults = self.assetsFetchResults;
+        assetViewController.assetFetchIndex = indexPath.item;
     }
 }
 

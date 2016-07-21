@@ -42,8 +42,8 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+-(void) reloadImage {
+    
     
     // Set the appropriate toolbarItems based on the mediaType of the asset.
     if (self.asset.mediaType == PHAssetMediaTypeVideo) {
@@ -69,6 +69,44 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
     
     [self.view layoutIfNeeded];
 }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    
+    [self reloadImage];
+    // init gesture recognizer
+    UISwipeGestureRecognizer *swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(slideToRightWithGestureRecognizer:)];
+    swipeRightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:swipeRightRecognizer];
+    
+    // init gesture recognizer
+    UISwipeGestureRecognizer *swipeLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(slideToLeftWithGestureRecognizer:)];
+    swipeLeftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipeLeftRecognizer];
+    
+    
+}
+
+//http://www.appcoda.com/ios-gesture-recognizers/
+
+-(void)slideToRightWithGestureRecognizer:(UISwipeGestureRecognizer *)gestureRecognizer{
+    int length = self.assetsFetchResults.count;
+    self.assetFetchIndex++;
+    self.assetFetchIndex %= length;
+    self.asset = self.assetsFetchResults[self.assetFetchIndex];
+    [self reloadImage];
+    
+}
+
+-(void)slideToLeftWithGestureRecognizer:(UISwipeGestureRecognizer *)gestureRecognizer{
+    int length = self.assetsFetchResults.count;
+    self.assetFetchIndex--;
+    if ( self.assetFetchIndex < 0 )
+        self.assetFetchIndex = length -1;
+    self.asset = self.assetsFetchResults[self.assetFetchIndex];
+    [self reloadImage];
+}
+
 
 #pragma mark - View & Toolbar setup methods.
 

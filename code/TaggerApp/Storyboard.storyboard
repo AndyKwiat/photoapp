@@ -179,6 +179,7 @@
                                     <outlet property="checkmarkView" destination="DZY-VO-BfV" id="dU8-Zt-MAV"/>
                                     <outlet property="imageView" destination="gvb-Xz-yyo" id="oZO-nd-r0O"/>
                                     <outlet property="livePhotoBadgeImageView" destination="xmI-Ht-N22" id="RC2-6q-Bdk"/>
+                                    <segue destination="fvd-bf-hd7" kind="show" id="RLV-Ns-y44"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
