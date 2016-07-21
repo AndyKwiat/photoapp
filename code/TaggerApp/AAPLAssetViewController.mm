@@ -7,8 +7,13 @@
  */
 
 #import "AAPLAssetViewController.h"
-#import "CIImage+Convenience.h"
-@import PhotosUI;
+#include "CIImage+Convenience.h"
+
+#include<PhotosUI/PhotosUI.h>
+
+#include"Xlist.h"
+#include"Tag.h"
+#include"CustomTypes.h"
 
 @interface AAPLAssetViewController () <PHPhotoLibraryChangeObserver, PHLivePhotoViewDelegate>
 
@@ -29,6 +34,11 @@
 @implementation AAPLAssetViewController
 
 static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplecode.SamplePhotosApp";
+
+namespace SinglePicViewMediator{
+    void GetTagsWithPic( PicId pic, XList<Tag*> *list);
+    void GetAllTags( XList<Tag*> *list );
+}
 
 #pragma mark - View Lifecycle Methods.
 
@@ -66,14 +76,16 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
     self.trashButton.enabled = isTrashable;
     
     [self updateImage];
-    
+    [self addTagButtons];
     [self.view layoutIfNeeded];
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     
     [self reloadImage];
+   
     // init gesture recognizer
     UISwipeGestureRecognizer *swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(slideToRightWithGestureRecognizer:)];
     swipeRightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
@@ -84,8 +96,112 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
     swipeLeftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:swipeLeftRecognizer];
     
+}
+
+
+namespace ME{
+UIScrollView* _tagScrollView;
+XList<UIButton*> _buttonList;
+XList< Tag*> _buttonTagList;
+UIColor *tagButtonBackground = [UIColor colorWithRed:0 green:122.0/255.0 blue:1.0 alpha:1.0];
+UIColor *tagButtonBackgroundSelected = [UIColor colorWithRed:.5 green:222.0/255.0 blue:1.0 alpha:1.0];
+UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8 alpha:1.0];
+    bool firstFrame = true;
+}
+using namespace ME;
+
+
+-(void)addTagButtons{
+    
+    // add bottom tag selection scrollview
+    if ( firstFrame ){
+       
+       // firstFrame = false;
+        // parent view container
+        CGFloat selfWidth = self.view.frame.size.width;
+        CGFloat newWidth = selfWidth-80;
+        CGRect rect = CGRectMake(newWidth/2-100/2,1,100,30);
+        // button tag scrollview Container
+        CGFloat scrollHt = 35;
+        rect = CGRectMake(0,0,newWidth, scrollHt);
+        UIScrollView* scrollView=[[UIScrollView alloc] initWithFrame:rect] ;
+        scrollView.backgroundColor =[UIColor colorWithRed:0 green:122.0/255.0 blue:0.26 alpha:1.0];
+        scrollView.contentSize = CGSizeMake(newWidth*2,scrollHt);
+        _tagScrollView = scrollView;
+        
+        // add the scrollview to the toolbar
+        UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithCustomView:scrollView];
+        NSMutableArray *items = [[NSMutableArray alloc] init];
+        [items addObject:newButton];
+        for ( id obj in self.toolbarItems){
+            [items addObject:obj];
+        }
+        [self setToolbarItems:items];
+    }
+    
+    XList< Tag*> tagList;
+    SinglePicViewMediator::GetAllTags( &tagList );
+    
+    //SinglePicViewMediator::GetTagsWithPic(self.asset.hash,&tagList );
+    // clear buttons
+    foreach(UIButton*, b, _buttonList){
+        [b removeFromSuperview];
+    }
+    _buttonList.Clear();
+    _buttonTagList.Clear();
+    
+    // add button for each tag
+    int xoffset =0;
+    int yoffset = 0;
+    int padX = 4;
+    int innerPadX = 12;
+    
+    foreach (  Tag*, t, tagList ){
+        NSString *name = [NSString stringWithUTF8String:t->GetName().c_str()];
+        UIButton* button =[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [button addTarget:self action:@selector(tagButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        NSDictionary *attributes = @{NSFontAttributeName:button.titleLabel.font};
+        CGSize stringSize = [name sizeWithAttributes:attributes];
+        int width = stringSize.width + innerPadX;
+        const int height = 30;
+        
+        button.frame = CGRectMake(10+xoffset,yoffset,width,height);
+        xoffset += width+padX;
+        
+        [button setTitle:name forState:UIControlStateNormal];
+       // SetTagButtonState( t,button);
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        button.layer.cornerRadius = 10;
+        button.layer.borderWidth = 1;
+        button.layer.borderColor = tagButtonBorderColor.CGColor;
+        [_tagScrollView addSubview:button];
+        button.tag = _buttonTagList.Count();
+        _buttonList.Add(button);
+        _buttonTagList.Add(t);
+        
+    }
+    CGSize sz = _tagScrollView.contentSize;
+    _tagScrollView.contentSize = CGSizeMake( xoffset, sz.height);
+
+}
+
+-(void)tagButtonClicked:(id) sender{
+    UIButton *button =(UIButton*)sender;
+    Tag * tag= _buttonTagList.Get((int)button.tag);
+  //  GridViewController::OnTagClicked(tag,IsInSelectMode);
+   // SetTagButtonState(tag, button);
+   // [self reloadPhotos];
     
 }
+
+void SetTagButtonStateOLD( Tag *tag, UIButton* button){
+    //button.backgroundColor = tagButtonBackground;
+   // if ( GridViewController::IsTagSelected(tag)){
+     //   button.backgroundColor = tagButtonBackgroundSelected;
+   // }
+    
+}
+
 
 //http://www.appcoda.com/ios-gesture-recognizers/
 

@@ -9,6 +9,7 @@ public:
     XList();
     ~XList();
     void Add(  const T newMember );
+    void AddRange (const XList<T> *listToCopy);
 	void AddMultiple( const T *data, int itemCount );
     int Count()const { return m_Count; } ;
     T Get(int index)const { ASSERT( index >=0 && index < m_Count); return m_Data[index]; }
@@ -39,6 +40,13 @@ void XList<T>::Add(const T newMember)
     if ( m_Count == m_Capacity )
     {
         AddCapacity(m_Capacity );	// double it
+    }
+}
+
+template<class T>
+void XList<T>::AddRange( const XList<T> *list ){
+    for ( int i=0; i < list->Count(); i++ ){
+        this->Add( list->m_Data[i] );
     }
 }
 

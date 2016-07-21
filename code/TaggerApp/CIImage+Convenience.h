@@ -6,7 +6,7 @@
  A category on CIImage for convienience methods.
  */
 
-@import CoreImage;
+#include<CoreImage/CoreImage.h>
 
 @interface CIImage (Convenience)
 

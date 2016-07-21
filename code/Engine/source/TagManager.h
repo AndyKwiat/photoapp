@@ -12,6 +12,7 @@ public:
     const XList<Tag*>*  GetAllTags()const{ return &m_Tags; }
     void WriteToStream( XStream *stream );
     void ReadFromStream( XStream *stream );
+
 private:
     XList<Tag*> m_Tags;
 };

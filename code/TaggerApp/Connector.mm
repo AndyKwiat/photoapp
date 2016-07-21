@@ -114,6 +114,16 @@ bool ToggleTagSelection ( Tag *tag ){
     return true;
 
 }
+
+namespace SinglePicViewMediator{
+    void GetTagsWithPic( PicId pic, XList<Tag*> *list){
+        
+    }
+    
+    void GetAllTags( XList<Tag*> *list ){
+        list->AddRange( tagManager.GetAllTags());
+    }
+}
 namespace FilterMenuMediator
 {
 
