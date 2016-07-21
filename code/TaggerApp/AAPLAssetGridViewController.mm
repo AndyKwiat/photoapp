@@ -99,7 +99,7 @@ PHFetchResult *FetchPhotos()
         self.navigationItem.rightBarButtonItem = nil;
     }*/
 }
-
+bool first = true;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.imageManager = [[PHCachingImageManager alloc] init];
@@ -114,15 +114,18 @@ PHFetchResult *FetchPhotos()
     [self updateCachedAssets];
     
     // add bottom tag selection stuff
-    
+    if ( !first )
+        return;
+    first = false;
     // parent view container
     CGFloat selfWidth = self.view.frame.size.width;
-    CGFloat newWidth = selfWidth-50;
+    CGFloat newWidth = selfWidth-80;
     CGRect rect = CGRectMake(newWidth/2-100/2,1,100,30);
     // button tag scrollview Container
     CGFloat scrollHt = 35;
     rect = CGRectMake(0,0,newWidth, scrollHt);
     UIScrollView* scrollView=[[UIScrollView alloc] initWithFrame:rect] ;
+    scrollView.backgroundColor =[UIColor colorWithRed:0 green:122.0/255.0 blue:0.26 alpha:1.0];
     scrollView.contentSize = CGSizeMake(newWidth*2,scrollHt);
       _tagScrollView = scrollView;
   
