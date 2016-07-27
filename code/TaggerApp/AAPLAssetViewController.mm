@@ -208,10 +208,7 @@ namespace SinglePicViewMediator{
     }
     
     [self updateTagButtonState:tag Button:button];
-  //  GridViewController::OnTagClicked(tag,IsInSelectMode);
-   // SetTagButtonState(tag, button);
-   // [self reloadPhotos];
-    
+     
 }
 -(void)updateTagButtonState:(Tag*)tag Button:(UIButton*)button{
     

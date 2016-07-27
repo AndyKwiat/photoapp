@@ -46,7 +46,7 @@ namespace GridViewController{
 
 static NSString * const CellReuseIdentifier = @"Cell";
 static CGSize AssetGridThumbnailSize;
-bool IsInSelectMode = false;
+static bool IsInSelectMode = false;
 
 - (void)awakeFromNib {
     
@@ -208,6 +208,13 @@ void SetTagButtonState( Tag *tag, UIButton* button){
         button.backgroundColor = tagButtonBackgroundSelected;
     }
 
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ( IsInSelectMode && [identifier isEqual:@"singlePic"] )
+        return NO;
+    return YES;
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Configure the destination AAPLAssetViewController.
