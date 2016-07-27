@@ -28,16 +28,30 @@
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, assign) CGSize lastTargetSize;
 @property (nonatomic, assign) BOOL playingHint;
-
 @end
 
 @implementation AAPLAssetViewController
+{
+    UIScrollView* _tagScrollView;
+    XList<UIButton*> _buttonList;
+    XList< Tag*> _buttonTagList;
+    XList<Tag*> currentPicTags;
+   
+    bool firstFrame ;
+}
+
+extern UIColor *tagButtonBackground ;
+extern UIColor *tagButtonBackgroundSelected;
+extern UIColor *tagButtonBorderColor;
 
 static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplecode.SamplePhotosApp";
 
 namespace SinglePicViewMediator{
-    void GetTagsWithPic( PicId pic, XList<Tag*> *list);
     void GetAllTags( XList<Tag*> *list );
+    void GetTagsWithPic( PicId pic, XList<Tag*> *listTags);
+    void TagPic( PicId pic,Tag * tag );
+    void UnTagPic( PicId pic,Tag * tag );
+
 }
 
 #pragma mark - View Lifecycle Methods.
@@ -47,6 +61,7 @@ namespace SinglePicViewMediator{
 }
 
 - (void)viewDidLoad {
+    firstFrame = true;
     [super viewDidLoad];
     self.livePhotoView.delegate = self;
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
@@ -76,8 +91,11 @@ namespace SinglePicViewMediator{
     self.trashButton.enabled = isTrashable;
     
     [self updateImage];
+    currentPicTags.Clear();
+    SinglePicViewMediator::GetTagsWithPic(self.asset.hash,&currentPicTags);
     [self addTagButtons];
     [self.view layoutIfNeeded];
+   
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -98,17 +116,6 @@ namespace SinglePicViewMediator{
     
 }
 
-
-namespace ME{
-UIScrollView* _tagScrollView;
-XList<UIButton*> _buttonList;
-XList< Tag*> _buttonTagList;
-UIColor *tagButtonBackground = [UIColor colorWithRed:0 green:122.0/255.0 blue:1.0 alpha:1.0];
-UIColor *tagButtonBackgroundSelected = [UIColor colorWithRed:.5 green:222.0/255.0 blue:1.0 alpha:1.0];
-UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8 alpha:1.0];
-    bool firstFrame = true;
-}
-using namespace ME;
 
 
 -(void)addTagButtons{
@@ -169,7 +176,8 @@ using namespace ME;
         xoffset += width+padX;
         
         [button setTitle:name forState:UIControlStateNormal];
-       // SetTagButtonState( t,button);
+        
+        
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         button.layer.cornerRadius = 10;
         button.layer.borderWidth = 1;
@@ -178,6 +186,7 @@ using namespace ME;
         button.tag = _buttonTagList.Count();
         _buttonList.Add(button);
         _buttonTagList.Add(t);
+        [self updateTagButtonState:t Button:button];
         
     }
     CGSize sz = _tagScrollView.contentSize;
@@ -188,17 +197,29 @@ using namespace ME;
 -(void)tagButtonClicked:(id) sender{
     UIButton *button =(UIButton*)sender;
     Tag * tag= _buttonTagList.Get((int)button.tag);
+    if ( !currentPicTags.Contains(tag))
+    {
+        currentPicTags.Add(tag);
+        SinglePicViewMediator::TagPic( self.asset.hash, tag );
+    }
+    else{
+        currentPicTags.Remove(tag);
+        SinglePicViewMediator::UnTagPic(self.asset.hash, tag );
+    }
+    
+    [self updateTagButtonState:tag Button:button];
   //  GridViewController::OnTagClicked(tag,IsInSelectMode);
    // SetTagButtonState(tag, button);
    // [self reloadPhotos];
     
 }
-
-void SetTagButtonStateOLD( Tag *tag, UIButton* button){
-    //button.backgroundColor = tagButtonBackground;
-   // if ( GridViewController::IsTagSelected(tag)){
-     //   button.backgroundColor = tagButtonBackgroundSelected;
-   // }
+-(void)updateTagButtonState:(Tag*)tag Button:(UIButton*)button{
+    
+    if ( currentPicTags.Contains(tag)){
+        button.backgroundColor = tagButtonBackgroundSelected;
+    }
+    else
+        button.backgroundColor = tagButtonBackground;
     
 }
 

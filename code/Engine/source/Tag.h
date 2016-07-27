@@ -11,7 +11,7 @@ public:
     const XString& GetName()const { return m_Name; }
     void TagPic( PicId hash );
     void UnTagPic( PicId hash );
-    const XList<PicId> &GetTaggedPics(){ return m_TaggedPics; }
+    const XList<PicId> &GetTaggedPics()const{ return m_TaggedPics; };
     void WriteToStream( XStream *str);
 	void ReadFromStream( XStream *str );
 private:

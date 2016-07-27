@@ -116,10 +116,37 @@ bool ToggleTagSelection ( Tag *tag ){
 }
 
 namespace SinglePicViewMediator{
-    void GetTagsWithPic( PicId pic, XList<Tag*> *list){
-        
+    void TagPic( PicId pic,Tag * tag ){
+        tag->TagPic(pic);
+        SaveTagManager();
     }
     
+    void UnTagPic( PicId pic,Tag * tag ){
+        tag->UnTagPic(pic);
+        SaveTagManager();
+    }
+    
+    
+    
+    
+    void GetTagsWithPic( PicId pic, XList<Tag*> *listTags){
+        foreach ( Tag* , t, *tagManager.GetAllTags()){
+            const XList<PicId> &list = t->GetTaggedPics();
+            for ( int i=0; i < list.Count(); i++ ){
+                if ( list.Get(i) == pic )
+                    listTags->Add(t);
+            }
+        }
+    }
+    bool PicHasTag( PicId pic, const Tag* tag ){
+        const XList<PicId> &list = tag->GetTaggedPics();
+        for ( int i=0; i < list.Count(); i++)
+        {
+            if ( list.Get(i)==pic )
+                return true;
+        }
+        return false;
+    }
     void GetAllTags( XList<Tag*> *list ){
         list->AddRange( tagManager.GetAllTags());
     }
