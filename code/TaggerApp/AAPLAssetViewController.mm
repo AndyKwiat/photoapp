@@ -12,7 +12,7 @@
 #include<PhotosUI/PhotosUI.h>
 
 #include"Xlist.h"
-#include"Tag.h"
+#include"Connector.hpp"
 #include"CustomTypes.h"
 
 @interface AAPLAssetViewController () <PHPhotoLibraryChangeObserver, PHLivePhotoViewDelegate>
@@ -45,14 +45,6 @@ extern UIColor *tagButtonBackgroundSelected;
 extern UIColor *tagButtonBorderColor;
 
 static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplecode.SamplePhotosApp";
-
-namespace SinglePicViewMediator{
-    void GetAllTags( XList<Tag*> *list );
-    void GetTagsWithPic( PicId pic, XList<Tag*> *listTags);
-    void TagPic( PicId pic,Tag * tag );
-    void UnTagPic( PicId pic,Tag * tag );
-
-}
 
 #pragma mark - View Lifecycle Methods.
 

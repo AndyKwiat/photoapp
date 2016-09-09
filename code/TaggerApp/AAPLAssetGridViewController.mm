@@ -17,20 +17,7 @@
 #include"CustomTypes.h"
 #include"XList.h"
 #include"XString.h"
-#include"Tag.h"
-
-namespace GridViewController{
-    bool IsAssetSelected(PicId hash);
-    void SelectAsset(PicId hash, const char *localIdentifier);
-    void DeSelectAsset(PicId hash );
-    bool GetLocalIdentifiersToLoad( XList<const XString*> &listToFill );
-
-    void OnTextFilterChange( const char *textFilterContents, XList< Tag*> &tagsToShow);
-    void OnTagClicked(  Tag * tag, bool IsSelectMode);
-    bool IsTagSelected( Tag *tag);
-    void OnExitSelectionMode();
-}
-
+#include"Connector.hpp"
 
 @interface AAPLAssetGridViewController () <PHPhotoLibraryChangeObserver>
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *addButton;

@@ -39,7 +39,7 @@ void XStream::Read( XString *str )
     ASSERT( buffer[length-1]==0 );
     
 	str->Append(buffer);
-	delete buffer;
+	delete[] buffer;
 }
 
 void XStream::Write( int number )

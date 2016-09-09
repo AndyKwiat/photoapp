@@ -73,6 +73,7 @@
 		A104A66C1C52A1000018A0B3 /* TagsMenuTableViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TagsMenuTableViewController.mm; sourceTree = "<group>"; };
 		A104A66E1C52A1EB0018A0B3 /* TagsMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsMenuCell.h; sourceTree = "<group>"; };
 		A104A66F1C52A1EB0018A0B3 /* TagsMenuCell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TagsMenuCell.mm; sourceTree = "<group>"; };
+		A13AA6B71D82FB6C00F34A53 /* AssetMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetMapper.h; sourceTree = "<group>"; };
 		A16D6BC11C52C3560046D676 /* CustomTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTypes.h; sourceTree = "<group>"; };
 		A16D6BC21C52D2CD0046D676 /* XStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XStream.h; sourceTree = "<group>"; };
 		A17AE8221C80A3C700D1B839 /* XStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XStream.cpp; sourceTree = "<group>"; };
@@ -285,6 +286,7 @@
 				42B1025B1BB0925000553A16 /* Launch Screen.storyboard */,
 				A104A6651C528CFB0018A0B3 /* Connector.mm */,
 				A104A6661C528CFB0018A0B3 /* Connector.hpp */,
+				A13AA6B71D82FB6C00F34A53 /* AssetMapper.h */,
 			);
 			path = TaggerApp;
 			sourceTree = "<group>";

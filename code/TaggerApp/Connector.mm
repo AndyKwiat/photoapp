@@ -6,55 +6,16 @@
 //
 //
 
-#include "Connector.hpp"
-
 #import <Foundation/Foundation.h>
 #include"XList.h"
 #include"TagManager.h"
-#include"Tag.h"
 #include"XStream.h"
 #include"XFileSystem.h"
 
-class AssetMapper
-{
-public:
-    void Add(PicId pid, const char *str )
-    {
-        if ( ids.Contains(pid))
-            return;
-        ids.Add(pid);
-        localIdentifiers.Add(str);
-    }
-    void GetLocalIdentifiers( XList<PicId> &picsToGet, XList<const XString*> &listToFill)
-    {
-        const XString *localIdArray = localIdentifiers.GetRawData();
-        for ( int i=0; i < picsToGet.Count(); i++ )
-        {
-            for ( int j=0; j < ids.Count(); j++ )
-            {
-                if ( picsToGet.Get(i) == ids.Get(j))
-                {
-                    listToFill.Add( &localIdArray[j] );
-                    break;
-                }
-            }
-        }
-    }
-    void WriteToStream( XStream *str )
-    {
-        str->Write(ids);
-        str->Write(localIdentifiers);
-    }
-    void ReadFromStream( XStream *str )
-    {
-        str->Read(&ids);
-        str->Read(&localIdentifiers);
-    }
+//@AUTOGENERATE
+#include"Connector.hpp" //@INCLUDE "Tag.h"
 
-private:
-    XList<PicId> ids;
-    XList<XString> localIdentifiers;
-};
+#include"AssetMapper.h"
 
 AssetMapper assetMapper;
 XList<unsigned long> selectedPics;
@@ -302,6 +263,7 @@ const char *GetDocumentsDirectory()
     NSString *basePath = paths.firstObject;
     return [[basePath stringByAppendingString:@"/"] UTF8String];
 }
+
 
 class Connector
 {

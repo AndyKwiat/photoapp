@@ -9,22 +9,11 @@
 #include"Tag.h"
 #import "TagsMenuTableViewController.h"
 #import "TagsMenuCell.h"
+#include "Connector.hpp"
 @interface TagsMenuTableViewController ()
 @property (nonatomic, strong) IBOutlet UILabel *photoCountLabel;
 @end
 
-namespace TagsMenuMediator
-{
-    int GetNumberOfTags();
-    Tag* GetTagAtIndex(int index );
-    int GetNumberOfSelectedPhotos();
-    int GetSelectedPhotoCountWithTag( Tag * tag );
-    void TagAllSelectedPics( Tag *tag );
-    void UnTagAllSelectedPics( Tag *tag );
-    void OnClose();
-    bool AttemptAddTag( const char *);
-    void DeleteTag( Tag *);
-}
 @implementation TagsMenuTableViewController
 static NSString * const CellReuseIdentifier = @"TagsCell";
 

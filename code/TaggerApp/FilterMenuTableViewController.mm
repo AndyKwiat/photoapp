@@ -9,18 +9,10 @@
 #include"Tag.h"
 #import "FilterMenuTableViewController.h"
 #import "TagsMenuCell.h"
-
+#include"Connector.hpp"
 @interface FilterMenuTableViewController ()
 @property (nonatomic, strong) IBOutlet UILabel *selectedPhotosCountLabel;
 @end
-
-namespace FilterMenuMediator{
-    int GetNumberOfTags();
-    Tag *GetTagAtIndex( int index );
-    bool IsTagSelected( Tag *tag );
-    bool OnTagClicked( Tag *tag);
-    int GetNumSelectedPhotos();
-}
 
 @implementation FilterMenuTableViewController
 static NSString * const CellReuseIdentifier = @"TagsCell";
