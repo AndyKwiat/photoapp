@@ -63,14 +63,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23 photos selected" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a8h-wZ-VPc">
-                            <rect key="frame" x="0.0" y="64" width="600" height="82"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="82"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XIy-8f-scV">
-                            <rect key="frame" x="0.0" y="218" width="600" height="44"/>
+                            <rect key="frame" x="0.0" y="154" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Add Tag"/>
                             <connections>
@@ -79,7 +79,7 @@
                         </button>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TagsCell" id="25p-YE-iLK" customClass="TagsMenuCell">
-                                <rect key="frame" x="0.0" y="174" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="110" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="25p-YE-iLK" id="U4C-lc-Ll6">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -192,7 +192,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="yct-AK-J4X"/>
                         <barButtonItem image="tag4" id="gxJ-QZ-Jfr" userLabel="TagsButton">
                             <connections>
-                                <segue destination="cq9-md-bW3" kind="show" id="qkE-lZ-OwC"/>
+                                <action selector="handleTagButtonPressed:" destination="TL6-96-rkl" id="klK-Fa-6ld"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>

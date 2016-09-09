@@ -112,7 +112,7 @@ bool first = true;
     CGFloat scrollHt = 35;
     rect = CGRectMake(0,0,newWidth, scrollHt);
     UIScrollView* scrollView=[[UIScrollView alloc] initWithFrame:rect] ;
-    scrollView.backgroundColor =[UIColor colorWithRed:0 green:122.0/255.0 blue:0.26 alpha:1.0];
+    //scrollView.backgroundColor =[UIColor colorWithRed:0 green:122.0/255.0 blue:0.26 alpha:1.0];
     scrollView.contentSize = CGSizeMake(newWidth*2,scrollHt);
       _tagScrollView = scrollView;
   
@@ -425,6 +425,30 @@ void SetTagButtonState( Tag *tag, UIButton* button){
 }
 
 #pragma mark - Actions
+
+- (IBAction)handleTagButtonPressed:(id)sender{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add New Tag" message:@"Enter the name of your new tag:" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                      {
+                          bool added = TagsMenuMediator::AttemptAddTag ([alert.textFields.firstObject.text UTF8String]);
+                          // todo show failure
+                          [alert dismissViewControllerAnimated:YES completion:nil];
+                          [self updateTagList:""];
+                          
+                      }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                      {
+                          [alert dismissViewControllerAnimated:YES completion:nil];
+                      }]];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Tag";
+    }];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+}
+
 - (IBAction)handleSelectButtonItem:(id)sender{
     if ( !IsInSelectMode )
     {
