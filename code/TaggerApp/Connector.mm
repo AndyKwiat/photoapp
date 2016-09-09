@@ -252,6 +252,14 @@ namespace GridViewController{
             tagsToShow.Add(t);
         }
     }
+    void RenameTag( Tag *tag, const char *newName ){
+        tag->Rename(newName);
+        SaveTagManager();
+    }
+    void DeleteTag( Tag *tag ){
+        tagManager.RemoveTag(tag);
+        SaveTagManager();
+    }
 }
 
 

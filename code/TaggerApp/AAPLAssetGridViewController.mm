@@ -79,6 +79,8 @@ PHFetchResult *FetchPhotos()
 	CGSize cellSize = ((UICollectionViewFlowLayout *)self.collectionViewLayout).itemSize;
 	AssetGridThumbnailSize = CGSizeMake(cellSize.width * scale, cellSize.height * scale);
     
+   
+    
     // Add button to the navigation bar if the asset collection supports adding content.
     /*if (!self.assetCollection || [self.assetCollection canPerformEditOperation:PHCollectionEditOperationAddContent]) {
         self.navigationItem.rightBarButtonItem = self.addButton;
@@ -180,6 +182,8 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
         button.layer.borderColor = tagButtonBorderColor.CGColor;
         [_tagScrollView addSubview:button];
         button.tag = _buttonTagList.Count();
+        UIGestureRecognizer *longPressRecognizer= [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressTag:)];
+        [button addGestureRecognizer:longPressRecognizer];
         _buttonList.Add(button);
         _buttonTagList.Add(t);
         
@@ -449,6 +453,49 @@ void SetTagButtonState( Tag *tag, UIButton* button){
     
 }
 
+- (IBAction)showDeleteTagPopup:(Tag*)tag{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Edit Tag" message:@"Edit tag name:" preferredStyle:UIAlertControllerStyleAlert];
+    // save/rename-------
+    [alert addAction:[UIAlertAction actionWithTitle:@"Save" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                      {
+                          GridViewController::RenameTag(tag,[alert.textFields.firstObject.text UTF8String]);
+                          [self updateTagList:""];
+                      }]];
+    
+    // delete ----------
+    [alert addAction:[UIAlertAction actionWithTitle:@"Delete Tag" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                      {
+                          UIAlertController *confirmPopup =[UIAlertController alertControllerWithTitle:@"Delete Tag" message:@"Delete tag permanently?" preferredStyle:UIAlertControllerStyleAlert];
+                          [confirmPopup addAction:[UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                                            {
+                                                GridViewController::DeleteTag(tag);
+                                                [self updateTagList:""];
+                                                 [confirmPopup dismissViewControllerAnimated:YES completion:nil];
+                                               
+                                            }]];
+                          [confirmPopup addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                                            {
+                                                [confirmPopup dismissViewControllerAnimated:YES completion:nil];
+                                            }]];
+                          [self presentViewController:confirmPopup animated:YES completion:nil];
+
+                      }]];
+    
+    // cancel --------
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                      {
+                          [alert dismissViewControllerAnimated:YES completion:nil];
+                      }]];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.text =[NSString stringWithUTF8String:tag->GetName().c_str()];
+    }];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+}
+
+
 - (IBAction)handleSelectButtonItem:(id)sender{
     if ( !IsInSelectMode )
     {
@@ -486,6 +533,14 @@ void SetTagButtonState( Tag *tag, UIButton* button){
             NSLog(@"Error creating asset: %@", error);
         }
     }];
+}
+
+-(void)longPressTag:(UILongPressGestureRecognizer *)gesture{
+    if ( gesture.state == UIGestureRecognizerStateBegan ){
+        UIView *button =gesture.view;
+        Tag * tag= _buttonTagList.Get((int)button.tag);
+        [self showDeleteTagPopup:tag];
+    }
 }
 
 @end

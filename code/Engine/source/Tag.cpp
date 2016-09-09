@@ -30,4 +30,8 @@ void Tag::ReadFromStream(XStream *stream)
 	stream->Read(&m_TaggedPics);
 }
 
+void Tag::Rename(const XString &str){
+    m_Name = str;
+}
+
 

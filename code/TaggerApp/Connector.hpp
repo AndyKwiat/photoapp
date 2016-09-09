@@ -35,4 +35,6 @@ namespace GridViewController{
 	void OnExitSelectionMode();
 	bool GetLocalIdentifiersToLoad( XList<const XString*> &listToFill );
 	void OnTextFilterChange( const char *textFilterContents, XList< Tag*> &tagsToShow);
+	void RenameTag( Tag *tag, const char *newName );
+	void DeleteTag( Tag *tag );
 }

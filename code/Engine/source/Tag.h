@@ -14,6 +14,7 @@ public:
     const XList<PicId> &GetTaggedPics()const{ return m_TaggedPics; };
     void WriteToStream( XStream *str);
 	void ReadFromStream( XStream *str );
+    void Rename( const XString &str );
 private:
     XList<PicId> m_TaggedPics;
     XString m_Name;
