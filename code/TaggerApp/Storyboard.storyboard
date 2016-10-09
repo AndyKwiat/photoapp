@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Photos-->
@@ -225,12 +226,26 @@
                         <viewControllerLayoutGuide type="top" id="sZD-4F-xef"/>
                         <viewControllerLayoutGuide type="bottom" id="4QP-ma-cUv"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="WLw-zI-4eX">
+                    <view key="view" contentMode="scaleAspectFit" id="WLw-zI-4eX">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I1t-V9-K21">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tag2" translatesAutoresizingMaskIntoConstraints="NO" id="7w5-rD-d9m" userLabel="Image View Left">
+                                <rect key="frame" x="-600" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="1" green="0.34528556030000002" blue="0.30479525860000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="KTV-k3-dtK"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tag2" translatesAutoresizingMaskIntoConstraints="NO" id="14M-8a-f4N" userLabel="Image View Right">
+                                <rect key="frame" x="600" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="1" green="0.34528556034482749" blue="0.30479525862068968" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="Jht-y1-Hap"/>
+                                </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="StA-CM-oAy" customClass="PHLivePhotoView">
                                 <rect key="frame" x="0.0" y="64" width="600" height="492"/>
@@ -239,13 +254,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="7w5-rD-d9m" firstAttribute="bottom" secondItem="WLw-zI-4eX" secondAttribute="bottomMargin" id="8BG-oX-diK"/>
+                            <constraint firstItem="7w5-rD-d9m" firstAttribute="top" secondItem="WLw-zI-4eX" secondAttribute="topMargin" id="95K-rV-cDC"/>
                             <constraint firstAttribute="trailing" secondItem="StA-CM-oAy" secondAttribute="trailing" id="KVl-X6-3Ps"/>
                             <constraint firstAttribute="trailing" secondItem="I1t-V9-K21" secondAttribute="trailing" id="LUv-bD-oEV"/>
+                            <constraint firstItem="14M-8a-f4N" firstAttribute="top" secondItem="WLw-zI-4eX" secondAttribute="top" id="OAa-dH-8dr"/>
                             <constraint firstItem="I1t-V9-K21" firstAttribute="top" secondItem="WLw-zI-4eX" secondAttribute="top" id="QKs-7j-BQK"/>
                             <constraint firstItem="4QP-ma-cUv" firstAttribute="top" secondItem="StA-CM-oAy" secondAttribute="bottom" id="W8e-2i-kvc"/>
+                            <constraint firstItem="14M-8a-f4N" firstAttribute="left" secondItem="I1t-V9-K21" secondAttribute="right" id="XfR-mA-kkG"/>
+                            <constraint firstAttribute="left" secondItem="7w5-rD-d9m" secondAttribute="right" id="fCz-eF-KLN"/>
                             <constraint firstItem="StA-CM-oAy" firstAttribute="leading" secondItem="WLw-zI-4eX" secondAttribute="leading" id="jB2-J0-VDX"/>
                             <constraint firstItem="StA-CM-oAy" firstAttribute="top" secondItem="sZD-4F-xef" secondAttribute="bottom" id="ldm-Bf-zKA"/>
                             <constraint firstAttribute="bottom" secondItem="I1t-V9-K21" secondAttribute="bottom" id="o3v-qc-XWl"/>
+                            <constraint firstItem="14M-8a-f4N" firstAttribute="bottom" secondItem="WLw-zI-4eX" secondAttribute="bottom" id="uuH-mi-anc"/>
                             <constraint firstItem="I1t-V9-K21" firstAttribute="leading" secondItem="WLw-zI-4eX" secondAttribute="leading" id="yPu-lF-J6Q"/>
                         </constraints>
                     </view>
@@ -265,6 +286,7 @@
                     <connections>
                         <outlet property="editButton" destination="3Rb-AR-iXx" id="vAj-wg-CtV"/>
                         <outlet property="imageView" destination="I1t-V9-K21" id="jPz-KX-SbU"/>
+                        <outlet property="imageViewRight" destination="14M-8a-f4N" id="CHp-Kb-4hS"/>
                         <outlet property="livePhotoView" destination="StA-CM-oAy" id="QcR-GI-LwH"/>
                         <outlet property="playButton" destination="yVp-DC-eAd" id="8cv-Ac-9Et"/>
                         <outlet property="progressView" destination="Wu5-52-7Na" id="RWW-eY-nmS"/>
@@ -285,7 +307,7 @@
                     </connections>
                 </barButtonItem>
             </objects>
-            <point key="canvasLocation" x="2544" y="422"/>
+            <point key="canvasLocation" x="2567" y="372"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Gtx-k3-924">
@@ -386,6 +408,7 @@
     </scenes>
     <resources>
         <image name="checkmark" width="66" height="66"/>
+        <image name="tag2" width="22" height="22"/>
         <image name="tag4" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>

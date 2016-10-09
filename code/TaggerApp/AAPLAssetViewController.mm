@@ -19,6 +19,8 @@
 
 @property (nonatomic, weak) IBOutlet PHLivePhotoView *livePhotoView;
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
+@property (nonatomic, weak) IBOutlet UIImageView *imageViewLeft;
+@property (nonatomic, weak) IBOutlet UIImageView *imageViewRight;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *editButton;
 @property (nonatomic, weak) IBOutlet UIProgressView *progressView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *playButton;
@@ -96,7 +98,34 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
     
     [self reloadImage];
    
-    // init gesture recognizer
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+    [self.view addGestureRecognizer:panRecognizer];
+    
+    CGRect bounds = [_imageView bounds];
+    [_imageViewRight setCenter:CGPointMake(0,300)];
+    
+    
+    
+    
+   /* [self.view addConstraints:@[
+                                [NSLayoutConstraint constraintWithItem:_imageViewRight
+                                                             attribute:NSLayoutAttributeLeft
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:_imageView
+                                                             attribute:NSLayoutAttributeRight
+                                                            multiplier:1 constant:0],
+                               
+                                [NSLayoutConstraint constraintWithItem:_imageViewLeft
+                                                             attribute:NSLayoutAttributeRight
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:_imageView
+                                                             attribute:NSLayoutAttributeLeft
+                                                            multiplier:1 constant:0]
+                                
+                                ]];*/
+    
+    
+/*    // init gesture recognizer
     UISwipeGestureRecognizer *swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(slideToRightWithGestureRecognizer:)];
     swipeRightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:swipeRightRecognizer];
@@ -105,7 +134,7 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
     UISwipeGestureRecognizer *swipeLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(slideToLeftWithGestureRecognizer:)];
     swipeLeftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:swipeLeftRecognizer];
-    
+  */
 }
 
 
@@ -124,7 +153,7 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
         CGFloat scrollHt = 35;
         rect = CGRectMake(0,0,newWidth, scrollHt);
         UIScrollView* scrollView=[[UIScrollView alloc] initWithFrame:rect] ;
-        scrollView.backgroundColor =[UIColor colorWithRed:0 green:122.0/255.0 blue:0.26 alpha:1.0];
+      //  scrollView.backgroundColor =[UIColor colorWithRed:0 green:122.0/255.0 blue:0.26 alpha:1.0];
         scrollView.contentSize = CGSizeMake(newWidth*2,scrollHt);
         _tagScrollView = scrollView;
         
@@ -212,6 +241,21 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
     
 }
 
+float firstX,firstY;
+-(void)onPan:(UIPanGestureRecognizer*)recognizer{
+    if ( [recognizer state]== UIGestureRecognizerStateBegan){
+        firstX = [[recognizer view] center].x;
+        firstY = [[recognizer view] center].y;
+    }
+    CGPoint translatedPoint = [recognizer translationInView:self.view];
+    translatedPoint = CGPointMake(firstX+translatedPoint.x, firstY);
+    [[recognizer view] setCenter:translatedPoint];
+    if ( [recognizer state]  == UIGestureRecognizerStateEnded){
+        [UIView animateWithDuration:0.25 animations:^{
+            [[recognizer view] setCenter:CGPointMake(firstX,firstY)];
+        }];
+    }
+}
 
 //http://www.appcoda.com/ios-gesture-recognizers/
 
