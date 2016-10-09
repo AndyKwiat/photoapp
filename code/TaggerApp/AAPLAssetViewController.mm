@@ -220,12 +220,41 @@ float firstX,firstY;
         firstY = [[recognizer view] center].y;
     }
     CGPoint translatedPoint = [recognizer translationInView:self.view];
-    translatedPoint = CGPointMake(firstX+translatedPoint.x, firstY);
-    [[recognizer view] setCenter:translatedPoint];
+    CGPoint newCenter = CGPointMake(firstX+translatedPoint.x, firstY);
+    const float swapThreshold = 0.35f;
+    [[recognizer view] setCenter:newCenter];
     if ( [recognizer state]  == UIGestureRecognizerStateEnded){
-        [UIView animateWithDuration:0.25 animations:^{
-            [[recognizer view] setCenter:CGPointMake(firstX,firstY)];
-        }];
+        if ( translatedPoint.x > self.view.bounds.size.width* swapThreshold ){
+            [UIView animateWithDuration:0.25 animations:^{
+                [[recognizer view] setCenter:CGPointMake(firstX + self.view.bounds.size.width,firstY)];
+            }
+             completion:^(BOOL finished) {
+                 self.assetFetchIndex = self.assetFetchIndex==0?(self.assetsFetchResults.count-1):self.assetFetchIndex-1;
+                  self.asset = self.assetsFetchResults[self.assetFetchIndex];
+                 self.imageView.image = self.imageViewLeft.image;
+                 [self reloadImage];
+                 [[recognizer view] setCenter:CGPointMake(firstX, firstY)];
+             }
+             ];
+        }else
+        if ( translatedPoint.x <-self.view.bounds.size.width*swapThreshold ){
+            [UIView animateWithDuration:0.25 animations:^{
+                [[recognizer view] setCenter:CGPointMake(firstX - self.view.bounds.size.width,firstY)];
+            }
+                             completion:^(BOOL finished) {
+                                 self.assetFetchIndex = (self.assetFetchIndex+1)%self.assetsFetchResults.count;
+                                 self.asset = self.assetsFetchResults[self.assetFetchIndex];
+                                 self.imageView.image = self.imageViewRight.image;
+                                 [self reloadImage];
+                                 [[recognizer view] setCenter:CGPointMake(firstX, firstY)];
+                             }
+             ];
+        }
+        else{
+            [UIView animateWithDuration:0.25 animations:^{
+                      [[recognizer view] setCenter:CGPointMake(firstX,firstY)];
+            }];
+        }
     }
 }
 
@@ -374,6 +403,17 @@ float firstX,firstY;
         }
         
         self.imageViewRight.image = result;
+    }];
+    
+    asset = self.assetsFetchResults[self.assetFetchIndex==0?(self.assetsFetchResults.count-1):(self.assetFetchIndex-1)];
+    
+    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:[self targetSize] contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *result, NSDictionary *info) {
+        // Check if the request was successful.
+        if (!result) {
+            return;
+        }
+        
+        self.imageViewLeft.image = result;
     }];
 
     
