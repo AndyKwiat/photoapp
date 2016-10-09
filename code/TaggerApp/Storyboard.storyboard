@@ -235,14 +235,12 @@
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tag2" translatesAutoresizingMaskIntoConstraints="NO" id="7w5-rD-d9m" userLabel="Image View Left">
                                 <rect key="frame" x="-600" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" red="1" green="0.34528556030000002" blue="0.30479525860000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="600" id="KTV-k3-dtK"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tag2" translatesAutoresizingMaskIntoConstraints="NO" id="14M-8a-f4N" userLabel="Image View Right">
                                 <rect key="frame" x="600" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" red="1" green="0.34528556034482749" blue="0.30479525862068968" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="600" id="Jht-y1-Hap"/>
                                 </constraints>
