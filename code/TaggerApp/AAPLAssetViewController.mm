@@ -26,6 +26,8 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *playButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *space;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *trashButton;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *imageRightWidthConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *imageLeftWidthConstraint;
 
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, assign) CGSize lastTargetSize;
@@ -101,40 +103,10 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
     [self.view addGestureRecognizer:panRecognizer];
     
-    CGRect bounds = [_imageView bounds];
-    [_imageViewRight setCenter:CGPointMake(0,300)];
+    _imageRightWidthConstraint.constant = self.view.bounds.size.width;
+    _imageLeftWidthConstraint.constant = self.view.bounds.size.width;
     
     
-    
-    
-   /* [self.view addConstraints:@[
-                                [NSLayoutConstraint constraintWithItem:_imageViewRight
-                                                             attribute:NSLayoutAttributeLeft
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:_imageView
-                                                             attribute:NSLayoutAttributeRight
-                                                            multiplier:1 constant:0],
-                               
-                                [NSLayoutConstraint constraintWithItem:_imageViewLeft
-                                                             attribute:NSLayoutAttributeRight
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:_imageView
-                                                             attribute:NSLayoutAttributeLeft
-                                                            multiplier:1 constant:0]
-                                
-                                ]];*/
-    
-    
-/*    // init gesture recognizer
-    UISwipeGestureRecognizer *swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(slideToRightWithGestureRecognizer:)];
-    swipeRightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.view addGestureRecognizer:swipeRightRecognizer];
-    
-    // init gesture recognizer
-    UISwipeGestureRecognizer *swipeLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(slideToLeftWithGestureRecognizer:)];
-    swipeLeftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.view addGestureRecognizer:swipeLeftRecognizer];
-  */
 }
 
 
@@ -362,6 +334,7 @@ float firstX,firstY;
     }];
 }
 
+
 - (void)updateStaticImage {
     // Prepare the options to pass when fetching the live photo.
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
@@ -377,6 +350,7 @@ float firstX,firstY;
         });
     };
     
+    
     [[PHImageManager defaultManager] requestImageForAsset:self.asset targetSize:[self targetSize] contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *result, NSDictionary *info) {
         // Hide the progress view now the request has completed.
         self.progressView.hidden = YES;
@@ -390,6 +364,20 @@ float firstX,firstY;
         [self showStaticPhotoView];
         self.imageView.image = result;
     }];
+    
+    PHAsset *asset = self.assetsFetchResults[(self.assetFetchIndex+1)%self.assetsFetchResults.count];
+    
+    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:[self targetSize] contentMode:PHImageContentModeAspectFit options:options resultHandler:^(UIImage *result, NSDictionary *info) {
+        // Check if the request was successful.
+        if (!result) {
+            return;
+        }
+        
+        self.imageViewRight.image = result;
+    }];
+
+    
+    
 }
 
 #pragma mark - PHPhotoLibraryChangeObserver

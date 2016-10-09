@@ -285,7 +285,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="editButton" destination="3Rb-AR-iXx" id="vAj-wg-CtV"/>
+                        <outlet property="imageLeftWidthConstraint" destination="KTV-k3-dtK" id="b0d-sg-SLR"/>
+                        <outlet property="imageRightWidthConstraint" destination="Jht-y1-Hap" id="Jjy-pD-IuW"/>
                         <outlet property="imageView" destination="I1t-V9-K21" id="jPz-KX-SbU"/>
+                        <outlet property="imageViewLeft" destination="7w5-rD-d9m" id="bcY-wb-LaF"/>
                         <outlet property="imageViewRight" destination="14M-8a-f4N" id="CHp-Kb-4hS"/>
                         <outlet property="livePhotoView" destination="StA-CM-oAy" id="QcR-GI-LwH"/>
                         <outlet property="playButton" destination="yVp-DC-eAd" id="8cv-Ac-9Et"/>
