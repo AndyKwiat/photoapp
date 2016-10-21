@@ -131,18 +131,35 @@ bool first = true;
 }
 
 
-UIScrollView* _tagScrollView;
-XList<UIButton*> _buttonList;
-XList< Tag*> _buttonTagList;
+static UIScrollView* _tagScrollView;
+static XList<UIButton*> _buttonList;
+static XList<UIButton*> _buttonBadgeList;
+static XList< Tag*> _buttonTagList;
+
 UIColor *tagButtonBackground = [UIColor colorWithRed:0 green:122.0/255.0 blue:1.0 alpha:1.0];
 UIColor *tagButtonBackgroundSelected = [UIColor colorWithRed:.5 green:222.0/255.0 blue:1.0 alpha:1.0];
 UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8 alpha:1.0];
 -(void)tagButtonClicked:(id) sender{
     UIButton *button =(UIButton*)sender;
     Tag * tag= _buttonTagList.Get((int)button.tag);
-    GridViewController::OnTagClicked(tag,IsInSelectMode);
+    GridViewController::OnTagClicked(tag,IsInSelectMode,_buttonBadgeList.Get((int)button.tag).tag==0);
     SetTagButtonState(tag, button);
-    [self reloadPhotos];
+    UIButton *badge = _buttonBadgeList.Get((int)button.tag);
+    badge.tag = !badge.tag;
+    if ( !IsInSelectMode){
+        [badge setTitle:@"999" forState:UIControlStateNormal] ;
+    }
+    else
+    if ( badge.tag ){ // untag
+        [badge setTitle:@"-" forState:UIControlStateNormal] ;
+    }
+    else{
+        [badge setTitle:@"+" forState:UIControlStateNormal] ;
+    }
+    
+    if ( !IsInSelectMode){
+        [self reloadPhotos];
+    }
     
 }
 -(void)updateTagList:(const char*)startsWith {
@@ -155,6 +172,7 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
     }
     _buttonList.Clear();
     _buttonTagList.Clear();
+    _buttonBadgeList.Clear();
     
     // add button for each tag
     int xoffset =0;
@@ -172,7 +190,7 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
         const int height = 30;
 
         button.frame = CGRectMake(10+xoffset,yoffset,width,height);
-        xoffset += width+padX;
+        
 
         [button setTitle:name forState:UIControlStateNormal];
         SetTagButtonState( t,button);
@@ -184,8 +202,24 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
         button.tag = _buttonTagList.Count();
         UIGestureRecognizer *longPressRecognizer= [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressTag:)];
         [button addGestureRecognizer:longPressRecognizer];
+        
+        
+        // add a badge too
+        UIButton* badge= [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [badge setTitle:@"+" forState:UIControlStateNormal];
+        badge.frame = CGRectMake(10+xoffset+width-8, yoffset-1, 15,15);
+        badge.backgroundColor =[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
+        badge.layer.cornerRadius = 7;
+        badge.layer.borderWidth = 1;
+        badge.layer.borderColor = tagButtonBorderColor.CGColor;
+        [button addTarget:self action:@selector(tagButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [_tagScrollView addSubview:badge];
+        
+        xoffset += width+padX;
+        
         _buttonList.Add(button);
         _buttonTagList.Add(t);
+        _buttonBadgeList.Add(badge);
         
     }
     CGSize sz = _tagScrollView.contentSize;

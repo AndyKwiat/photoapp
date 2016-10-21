@@ -28,7 +28,7 @@ namespace TagsMenuMediator{
 }
 namespace GridViewController{
 	bool IsTagSelected( Tag *tag );
-	void OnTagClicked(  Tag * tag , bool IsSelectionMode);
+	void OnTagClicked(  Tag * tag , bool IsSelectionMode, bool SelectionModeTagPic);
 	bool IsAssetSelected(PicId hash);
 	void SelectAsset(PicId hash, const char *localIdentifier );
 	void DeSelectAsset(PicId hash );

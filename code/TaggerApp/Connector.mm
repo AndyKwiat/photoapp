@@ -205,11 +205,18 @@ namespace GridViewController{
     bool IsTagSelected( Tag *tag ){
         return selectedTags.Contains(tag);
     }
-    void OnTagClicked(  Tag * tag , bool IsSelectionMode)
+    void OnTagClicked(  Tag * tag , bool IsSelectionMode, bool SelectionModeTagPic)
     {
         if ( IsSelectionMode ){
-            for ( int i=0; i < selectedPics.Count(); i++ ){
-                tag->TagPic(selectedPics.Get(i));
+            if ( !SelectionModeTagPic ){
+                for ( int i=0; i < selectedPics.Count(); i++ ){
+                    tag->UnTagPic(selectedPics.Get(i));
+                }
+            }
+            else{
+                for ( int i=0; i < selectedPics.Count(); i++ ){
+                    tag->TagPic(selectedPics.Get(i));
+                }
             }
             SaveTagManager();
         }
