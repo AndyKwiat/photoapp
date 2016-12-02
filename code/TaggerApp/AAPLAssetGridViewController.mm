@@ -76,6 +76,9 @@ PHFetchResult *FetchPhotos()
 
     // Determine the size of the thumbnails to request from the PHCachingImageManager
     CGFloat scale = [UIScreen mainScreen].scale ;
+    int frameWidth = self.view.frame.size.width;
+    int cellWidth = frameWidth *0.25;
+    ((UICollectionViewFlowLayout *) self.collectionViewLayout).itemSize = CGSizeMake(cellWidth, cellWidth);
 	CGSize cellSize = ((UICollectionViewFlowLayout *)self.collectionViewLayout).itemSize;
 	AssetGridThumbnailSize = CGSizeMake(cellSize.width * scale, cellSize.height * scale);
     
@@ -332,7 +335,7 @@ void SetTagButtonState( Tag *tag, UIButton* button){
     // Request an image for the asset from the PHCachingImageManager.
     [self.imageManager requestImageForAsset:asset
 								 targetSize:AssetGridThumbnailSize
-								contentMode:PHImageContentModeAspectFill
+								contentMode:PHImageContentModeAspectFit
 									options:nil
 							  resultHandler:^(UIImage *result, NSDictionary *info) {
         // Set the cell's thumbnail image if it's still showing the same asset.
