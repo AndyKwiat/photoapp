@@ -55,7 +55,7 @@ UIColor *tagColors[]={
 NSMutableDictionary *tagColorMap=[[NSMutableDictionary alloc] init];
 
 
-const int MAX_TAG_COLORS = 7;
+
 PHFetchResult *FetchPhotos()
 {
     // load all photos by default
@@ -179,6 +179,11 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
     
     if ( !IsInSelectMode){
         [self reloadPhotos];
+    }else{
+        for(UICollectionViewCell *cell in self.collectionView.visibleCells){
+            [self updateTagColorsForCell:(AAPLGridViewCell*)cell];
+            //add animation to cell here
+        }
     }
     
 }
@@ -334,6 +339,43 @@ void SetTagButtonState( Tag *tag, UIButton* button){
     return self.assetsFetchResults.count;
 }
 
+- (void ) updateTagColorsForCell: (AAPLGridViewCell*) cell{
+    XList<UIView*> *colorList  = cell.tagColorViews;
+    const float width = cell.frame.size.width *0.8;
+    const float space = width/2;
+    if ( colorList == NULL){
+        colorList = new XList<UIView*>();
+        for ( int i= 0; i < 5; i++ ){
+
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(cell.frame.size.width-space*i - width*i -space-width,cell.frame.size.height - space - width ,width,width)];
+            [cell addSubview:view];
+            colorList->Add(view);
+        }
+        
+        cell.tagColorViews = colorList;
+    }
+    
+    
+    XList<Tag*> tags;
+    SinglePicViewMediator::GetTagsWithPic(cell.assetHash, &tags);
+    for( int i=0; i < colorList->Count(); i++ ){
+        Tag* tag = NULL;
+        if ( i < tags.Count())
+        {
+            tag = tags.Get(i);
+        }
+        
+        UIView *view = colorList->Get(i);
+        if ( tag == NULL ){
+            view.hidden =true;
+        }
+        else{
+            view.hidden = false;
+            view.backgroundColor = tagColorMap[[NSNumber numberWithInt:tag->ID]];
+        }
+    }
+
+}
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PHAsset *asset = self.assetsFetchResults[indexPath.item];
 
@@ -366,38 +408,7 @@ void SetTagButtonState( Tag *tag, UIButton* button){
         }
     }];
     
-    XList<UIView*> *colorList  = cell.tagColorViews;
-    if ( colorList == NULL){
-        colorList = new XList<UIView*>();
-        for ( int i= 0; i < 5; i++ ){
-            const int width = 10;
-            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(width * i,0,width,width)];
-            [cell addSubview:view];
-            colorList->Add(view);
-        }
-
-        cell.tagColorViews = colorList;
-    }
-    
-    
-    XList<Tag*> tags;
-    SinglePicViewMediator::GetTagsWithPic(cell.assetHash, &tags);
-    for( int i=0; i < colorList->Count(); i++ ){
-        Tag* tag = NULL;
-        if ( i < tags.Count())
-        {
-            tag = tags.Get(i);
-        }
-
-        UIView *view = colorList->Get(i);
-        if ( tag == NULL ){
-            view.hidden =true;
-        }
-        else{
-            view.hidden = false;
-            view.backgroundColor = tagColorMap[[NSNumber numberWithInt:tag->ID]];
-        }
-    }
+    [self updateTagColorsForCell:cell];
     
     return cell;
 }
