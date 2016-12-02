@@ -77,7 +77,8 @@ PHFetchResult *FetchPhotos()
     // Determine the size of the thumbnails to request from the PHCachingImageManager
     CGFloat scale = [UIScreen mainScreen].scale ;
     int frameWidth = self.view.frame.size.width;
-    int cellWidth = frameWidth *0.25;
+    int frameHeight = self.view.frame.size.height;
+    int cellWidth = ((frameWidth<frameHeight)?frameWidth:frameHeight)*0.249;
     ((UICollectionViewFlowLayout *) self.collectionViewLayout).itemSize = CGSizeMake(cellWidth, cellWidth);
 	CGSize cellSize = ((UICollectionViewFlowLayout *)self.collectionViewLayout).itemSize;
 	AssetGridThumbnailSize = CGSizeMake(cellSize.width * scale, cellSize.height * scale);
@@ -208,7 +209,7 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
         
         
         // add a badge too
-        UIButton* badge= [UIButton buttonWithType:UIButtonTypeRoundedRect];
+      /*  UIButton* badge= [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [badge setTitle:@"+" forState:UIControlStateNormal];
         badge.frame = CGRectMake(10+xoffset+width-8, yoffset-1, 15,15);
         badge.backgroundColor =[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
@@ -217,12 +218,13 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
         badge.layer.borderColor = tagButtonBorderColor.CGColor;
         [button addTarget:self action:@selector(tagButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [_tagScrollView addSubview:badge];
+        */
         
         xoffset += width+padX;
         
         _buttonList.Add(button);
         _buttonTagList.Add(t);
-        _buttonBadgeList.Add(badge);
+       // _buttonBadgeList.Add(badge);
         
     }
     CGSize sz = _tagScrollView.contentSize;
