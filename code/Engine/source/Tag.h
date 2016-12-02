@@ -15,6 +15,7 @@ public:
     void WriteToStream( XStream *str);
 	void ReadFromStream( XStream *str );
     void Rename( const XString &str );
+    int ID;  // convenience
 private:
     XList<PicId> m_TaggedPics;
     XString m_Name;

@@ -23,6 +23,7 @@
     self.imageView.image = nil;
     self.livePhotoBadgeImageView.image = nil;
     self.checkmarkView.hidden = true;
+    
 }
 
 -(void)hideCheckmark{
@@ -43,6 +44,7 @@
     _livePhotoBadgeImage = livePhotoBadgeImage;
     self.livePhotoBadgeImageView.image = livePhotoBadgeImage;
 }
+
 
 - (IBAction)onClick:(id)sender{
     [self showCheckmark];

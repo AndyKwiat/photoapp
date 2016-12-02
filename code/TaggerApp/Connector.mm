@@ -91,6 +91,7 @@ namespace SinglePicViewMediator{
     
     
     void GetTagsWithPic( PicId pic, XList<Tag*> *listTags){
+        // PERFORMANCE TODO
         foreach ( Tag* , t, *tagManager.GetAllTags()){
             const XList<PicId> &list = t->GetTaggedPics();
             for ( int i=0; i < list.Count(); i++ ){

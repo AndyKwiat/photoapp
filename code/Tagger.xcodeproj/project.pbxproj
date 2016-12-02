@@ -42,7 +42,7 @@
 		A7CF22D71933ED8900E6E88E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7CF22D61933ED8900E6E88E /* Images.xcassets */; };
 		A7CF22F11933F11D00E6E88E /* AAPLRootListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CF22F01933F11D00E6E88E /* AAPLRootListViewController.m */; };
 		A7CF22F41933F39000E6E88E /* AAPLAssetGridViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A7CF22F31933F39000E6E88E /* AAPLAssetGridViewController.mm */; };
-		A7CF22FA1933F51500E6E88E /* AAPLGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CF22F91933F51500E6E88E /* AAPLGridViewCell.m */; };
+		A7CF22FA1933F51500E6E88E /* AAPLGridViewCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = A7CF22F91933F51500E6E88E /* AAPLGridViewCell.mm */; };
 		A7CF22FD1933FD2600E6E88E /* AAPLAssetViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A7CF22FC1933FD2600E6E88E /* AAPLAssetViewController.mm */; };
 		B53F838C1BB15A6100BE25D4 /* NSIndexSet+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = B53F838B1BB15A6100BE25D4 /* NSIndexSet+Convenience.m */; };
 		B53F838F1BB15B1400BE25D4 /* UICollectionView+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = B53F838E1BB15B1400BE25D4 /* UICollectionView+Convenience.m */; };
@@ -112,7 +112,7 @@
 		A7CF22F21933F39000E6E88E /* AAPLAssetGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLAssetGridViewController.h; sourceTree = "<group>"; };
 		A7CF22F31933F39000E6E88E /* AAPLAssetGridViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = AAPLAssetGridViewController.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		A7CF22F81933F51500E6E88E /* AAPLGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLGridViewCell.h; sourceTree = "<group>"; };
-		A7CF22F91933F51500E6E88E /* AAPLGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLGridViewCell.m; sourceTree = "<group>"; };
+		A7CF22F91933F51500E6E88E /* AAPLGridViewCell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AAPLGridViewCell.mm; sourceTree = "<group>"; };
 		A7CF22FB1933FD2600E6E88E /* AAPLAssetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLAssetViewController.h; sourceTree = "<group>"; };
 		A7CF22FC1933FD2600E6E88E /* AAPLAssetViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = AAPLAssetViewController.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B53F838A1BB15A6100BE25D4 /* NSIndexSet+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet+Convenience.h"; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				A7CF22F81933F51500E6E88E /* AAPLGridViewCell.h */,
-				A7CF22F91933F51500E6E88E /* AAPLGridViewCell.m */,
+				A7CF22F91933F51500E6E88E /* AAPLGridViewCell.mm */,
 				A7CF22F21933F39000E6E88E /* AAPLAssetGridViewController.h */,
 				A7CF22F31933F39000E6E88E /* AAPLAssetGridViewController.mm */,
 			);
@@ -424,7 +424,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7CF22FA1933F51500E6E88E /* AAPLGridViewCell.m in Sources */,
+				A7CF22FA1933F51500E6E88E /* AAPLGridViewCell.mm in Sources */,
 				A7CF22F41933F39000E6E88E /* AAPLAssetGridViewController.mm in Sources */,
 				A1FDB4DC1C49AE7300D6199C /* Tag.cpp in Sources */,
 				A7CF22FD1933FD2600E6E88E /* AAPLAssetViewController.mm in Sources */,

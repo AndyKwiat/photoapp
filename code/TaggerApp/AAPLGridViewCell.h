@@ -7,7 +7,7 @@
  */
 
 #include<UIKit/UIKit.h>
-
+#include"XList.h"
 
 @interface AAPLGridViewCell : UICollectionViewCell
 
@@ -15,8 +15,10 @@
 @property (nonatomic, strong) UIImage *livePhotoBadgeImage;
 @property (nonatomic, copy) NSString *representedAssetIdentifier;
 @property (nonatomic) unsigned long assetHash;
+@property (nonatomic) XList<UIView*> *tagColorViews;
 
 -(void)hideCheckmark;
 -(void)showCheckmark;
+
 
 @end

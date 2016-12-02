@@ -51,6 +51,10 @@ UIColor *tagColors[]={
       [UIColor colorWithHue:23 / 360.0 saturation:1.0 brightness:brightness alpha:1.0],
     
     };
+
+NSMutableDictionary *tagColorMap=[[NSMutableDictionary alloc] init];
+
+
 const int MAX_TAG_COLORS = 7;
 PHFetchResult *FetchPhotos()
 {
@@ -210,6 +214,9 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
 
         [button setTitle:name forState:UIControlStateNormal];
          button.tag = _buttonTagList.Count();
+        t->ID = _buttonTagList.Count();
+        const int maxColors = sizeof(tagColors)/ sizeof(UIColor*);
+        tagColorMap[[NSNumber numberWithInt:t->ID]] = tagColors[t->ID % maxColors];
         SetTagButtonState( t,button);
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         button.layer.cornerRadius = 10;
@@ -221,23 +228,23 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
         [button addGestureRecognizer:longPressRecognizer];
         
         
-        // add a badge too
-      /*  UIButton* badge= [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        // add a badge too, don't delete because we need the stupid tag for state control (TODO: FIX THIS), TODO: TECH DEBT
+        UIButton* badge= [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [badge setTitle:@"+" forState:UIControlStateNormal];
         badge.frame = CGRectMake(10+xoffset+width-8, yoffset-1, 15,15);
         badge.backgroundColor =[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.0];
         badge.layer.cornerRadius = 7;
         badge.layer.borderWidth = 1;
         badge.layer.borderColor = tagButtonBorderColor.CGColor;
-        [button addTarget:self action:@selector(tagButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_tagScrollView addSubview:badge];
-        */
+        //[button addTarget:self action:@selector(tagButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        //[_tagScrollView addSubview:badge];
+        
         
         xoffset += width+padX;
         
         _buttonList.Add(button);
         _buttonTagList.Add(t);
-       // _buttonBadgeList.Add(badge);
+        _buttonBadgeList.Add(badge);
         
     }
     CGSize sz = _tagScrollView.contentSize;
@@ -246,7 +253,7 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
 }
 
 void SetTagButtonState( Tag *tag, UIButton* button){
-    button.backgroundColor = tagColors[button.tag%MAX_TAG_COLORS];//tagButtonBackground;
+    button.backgroundColor = tagColorMap[[NSNumber numberWithInt:tag->ID]];
     if ( GridViewController::IsTagSelected(tag)){
         button.backgroundColor = tagButtonBackgroundSelected;
     }
@@ -358,6 +365,39 @@ void SetTagButtonState( Tag *tag, UIButton* button){
             cell.thumbnailImage = result;
         }
     }];
+    
+    XList<UIView*> *colorList  = cell.tagColorViews;
+    if ( colorList == NULL){
+        colorList = new XList<UIView*>();
+        for ( int i= 0; i < 5; i++ ){
+            const int width = 10;
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(width * i,0,width,width)];
+            [cell addSubview:view];
+            colorList->Add(view);
+        }
+
+        cell.tagColorViews = colorList;
+    }
+    
+    
+    XList<Tag*> tags;
+    SinglePicViewMediator::GetTagsWithPic(cell.assetHash, &tags);
+    for( int i=0; i < colorList->Count(); i++ ){
+        Tag* tag = NULL;
+        if ( i < tags.Count())
+        {
+            tag = tags.Get(i);
+        }
+
+        UIView *view = colorList->Get(i);
+        if ( tag == NULL ){
+            view.hidden =true;
+        }
+        else{
+            view.hidden = false;
+            view.backgroundColor = tagColorMap[[NSNumber numberWithInt:tag->ID]];
+        }
+    }
     
     return cell;
 }
