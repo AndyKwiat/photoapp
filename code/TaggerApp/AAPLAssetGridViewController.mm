@@ -341,7 +341,7 @@ void SetTagButtonState( Tag *tag, UIButton* button){
 
 - (void ) updateTagColorsForCell: (AAPLGridViewCell*) cell{
     XList<UIView*> *colorList  = cell.tagColorViews;
-    const float width = cell.frame.size.width *0.8;
+    const float width = cell.frame.size.width *0.08;
     const float space = width/2;
     if ( colorList == NULL){
         colorList = new XList<UIView*>();
