@@ -40,6 +40,18 @@ static bool IsInSelectMode = false;
     
 }
 
+const float brightness = 0.75;
+UIColor *tagColors[]={
+    [UIColor colorWithHue:0 saturation:1.0 brightness:brightness alpha:1.0],
+    [UIColor colorWithHue:55/360.0 saturation:1.0 brightness:brightness alpha:1.0],
+ [UIColor colorWithHue:93.0 / 360 saturation:1.0 brightness:brightness alpha:1.0],
+ [UIColor colorWithHue:240.0 / 360 saturation:1.0 brightness:brightness alpha:1.0],
+    [UIColor colorWithHue:172 / 360.0 saturation:1.0 brightness:brightness alpha:1.0],
+      [UIColor colorWithHue:282 / 360.0 saturation:1.0 brightness:brightness alpha:1.0],
+      [UIColor colorWithHue:23 / 360.0 saturation:1.0 brightness:brightness alpha:1.0],
+    
+    };
+const int MAX_TAG_COLORS = 7;
 PHFetchResult *FetchPhotos()
 {
     // load all photos by default
@@ -197,13 +209,14 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
         
 
         [button setTitle:name forState:UIControlStateNormal];
+         button.tag = _buttonTagList.Count();
         SetTagButtonState( t,button);
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         button.layer.cornerRadius = 10;
         button.layer.borderWidth = 1;
         button.layer.borderColor = tagButtonBorderColor.CGColor;
         [_tagScrollView addSubview:button];
-        button.tag = _buttonTagList.Count();
+       
         UIGestureRecognizer *longPressRecognizer= [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressTag:)];
         [button addGestureRecognizer:longPressRecognizer];
         
@@ -233,7 +246,7 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
 }
 
 void SetTagButtonState( Tag *tag, UIButton* button){
-    button.backgroundColor = tagButtonBackground;
+    button.backgroundColor = tagColors[button.tag%MAX_TAG_COLORS];//tagButtonBackground;
     if ( GridViewController::IsTagSelected(tag)){
         button.backgroundColor = tagButtonBackgroundSelected;
     }
