@@ -54,7 +54,7 @@ UIColor *tagColors[]={
 
 NSMutableDictionary *tagColorMap=[[NSMutableDictionary alloc] init];
 
-
+void shadowAdd(UIButton *b );
 
 PHFetchResult *FetchPhotos()
 {
@@ -234,7 +234,7 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
        
         UIGestureRecognizer *longPressRecognizer= [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressTag:)];
         [button addGestureRecognizer:longPressRecognizer];
-        
+        shadowAdd(button);
         
         // add a badge too, don't delete because we need the stupid tag for state control (TODO: FIX THIS), TODO: TECH DEBT
         UIButton* badge= [UIButton buttonWithType:UIButtonTypeRoundedRect];

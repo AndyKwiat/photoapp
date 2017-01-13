@@ -111,7 +111,12 @@ static XList<UIButton*> _animatedButtonList;
 }
 
 
-
+void shadowAdd(UIButton *b ){
+    b.layer.shadowColor = [UIColor blackColor].CGColor;
+    b.layer.shadowOpacity = 0.8;
+    b.layer.shadowRadius = 2;
+    b.layer.shadowOffset = CGSizeMake(1.2f, 1.2f);
+}
 -(void)addTagButtons{
     
     // add bottom tag selection scrollview
@@ -148,6 +153,10 @@ static XList<UIButton*> _animatedButtonList;
     foreach(UIButton*, b, _buttonList){
         [b removeFromSuperview];
     }
+    
+    foreach ( UIButton *,b, _animatedButtonList){
+        [b removeFromSuperview];
+    }
     _buttonList.Clear();
     _buttonTagList.Clear();
     _animatedButtonList.Clear();
@@ -180,6 +189,7 @@ static XList<UIButton*> _animatedButtonList;
         
         [_tagScrollView addSubview:button];
         button.tag = _buttonTagList.Count();
+        shadowAdd(button);
         
         _buttonList.Add(button);
         _buttonTagList.Add(t);
@@ -201,6 +211,7 @@ static XList<UIButton*> _animatedButtonList;
         
         [self.view addSubview:buttonA];
         buttonA.tag = button.tag;
+        shadowAdd(buttonA);
         _animatedButtonList.Add(buttonA);
     
     }
@@ -218,12 +229,15 @@ static XList<UIButton*> _animatedButtonList;
         if ( currentPicTags.Contains(t)){
             b.center = CGPointMake(x,y);
             x+= b.frame.size.width + 4;
-            b.hidden = false;
+            [b setHidden:false];
+
         }
         else{
-            b.hidden = true;
+             b.center = CGPointMake(50,1550);
+           // [b setHidden:true];
         }
     }
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -246,17 +260,19 @@ static XList<UIButton*> _animatedButtonList;
         currentPicTags.Add(tag);
         SinglePicViewMediator::TagPic( self.asset.hash, tag );
       
-        //[UIView animateWithDuration:0.25 animations:^{
+        [UIView animateWithDuration:0.38 animations:^{
             [self setAnimatedButtonPositions];
-        //}];
+        }];
     }
     else{
         currentPicTags.Remove(tag);
         SinglePicViewMediator::UnTagPic(self.asset.hash, tag );
+         [UIView animateWithDuration:0.38 animations:^{
         [self setAnimatedButtonPositions];
+         }];
     }
     
-    [self updateTagButtonState:tag Button:button];
+    [self updateTagButtonState:tag Button:_buttonList.Get((int)button.tag)];
      
 }
 -(void)updateTagButtonState:(Tag*)tag Button:(UIButton*)button{
