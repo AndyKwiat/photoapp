@@ -78,6 +78,9 @@ PHFetchResult *FetchPhotos()
     return allPhotos;
 
 }
+
+-(IBAction)prepareForUnwind:(UIStoryboardSegue *)segue {
+}
 - (void)dealloc {
     [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
 }

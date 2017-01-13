@@ -47,6 +47,7 @@
 extern UIColor *tagButtonBackground ;
 extern UIColor *tagButtonBackgroundSelected;
 extern UIColor *tagButtonBorderColor;
+extern NSMutableDictionary *tagColorMap;
 
 static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplecode.SamplePhotosApp";
 
@@ -175,6 +176,7 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
         button.layer.cornerRadius = 10;
         button.layer.borderWidth = 1;
         button.layer.borderColor = tagButtonBorderColor.CGColor;
+        
         [_tagScrollView addSubview:button];
         button.tag = _buttonTagList.Count();
         _buttonList.Add(button);
@@ -185,6 +187,17 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
     CGSize sz = _tagScrollView.contentSize;
     _tagScrollView.contentSize = CGSizeMake( xoffset, sz.height);
 
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [UIView setAnimationsEnabled: NO];
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.3;
+    transition.type = kCATransitionFade;
+    [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [UIView setAnimationsEnabled: YES];
 }
 
 -(void)tagButtonClicked:(id) sender{
@@ -209,7 +222,7 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
         button.backgroundColor = tagButtonBackgroundSelected;
     }
     else
-        button.backgroundColor = tagButtonBackground;
+        button.backgroundColor = button.backgroundColor = tagColorMap[[NSNumber numberWithInt:tag->ID]];;
     
 }
 

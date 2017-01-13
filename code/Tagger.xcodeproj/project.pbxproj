@@ -363,7 +363,7 @@
 					};
 					A7CF22CB1933ED8900E6E88E = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = XRTP63Z77N;
+						DevelopmentTeam = 3X9T8X7799;
 					};
 				};
 			};
@@ -567,7 +567,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TaggerApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sfg.Tagger2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sfg.Tagger;
 				PRODUCT_NAME = Tagger;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -583,7 +583,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = TaggerApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sfg.Tagger2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sfg.Tagger;
 				PRODUCT_NAME = Tagger;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -127,7 +127,7 @@
         <!--Asset Grid View Controller-->
         <scene sceneID="1DO-QJ-EBB">
             <objects>
-                <collectionViewController id="TL6-96-rkl" customClass="AAPLAssetGridViewController" sceneMemberID="viewController">
+                <collectionViewController modalTransitionStyle="partialCurl" id="TL6-96-rkl" customClass="AAPLAssetGridViewController" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="7tL-ub-r9I">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -180,7 +180,7 @@
                                     <outlet property="checkmarkView" destination="DZY-VO-BfV" id="dU8-Zt-MAV"/>
                                     <outlet property="imageView" destination="gvb-Xz-yyo" id="oZO-nd-r0O"/>
                                     <outlet property="livePhotoBadgeImageView" destination="xmI-Ht-N22" id="RC2-6q-Bdk"/>
-                                    <segue destination="fvd-bf-hd7" kind="show" identifier="singlePic" id="RLV-Ns-y44"/>
+                                    <segue destination="fvd-bf-hd7" kind="show" identifier="singlePic" animates="NO" id="RLV-Ns-y44"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -347,9 +347,11 @@
                     </toolbar>
                     <connections>
                         <segue destination="TL6-96-rkl" kind="relationship" relationship="rootViewController" id="CGw-QS-N7z"/>
+                        <segue destination="avq-ht-CgU" kind="unwind" animates="NO" unwindAction="prepareForUnwind:" id="rmS-qr-R7W"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y0B-6S-wyt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="avq-ht-CgU" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1038" y="832"/>
         </scene>
