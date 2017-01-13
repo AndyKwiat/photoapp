@@ -52,7 +52,7 @@ extern NSMutableDictionary *tagColorMap;
 static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplecode.SamplePhotosApp";
 
 #pragma mark - View Lifecycle Methods.
-
+static XList<UIButton*> _animatedButtonList;
 - (void)dealloc {
     [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
 }
@@ -150,6 +150,7 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
     }
     _buttonList.Clear();
     _buttonTagList.Clear();
+    _animatedButtonList.Clear();
     
     // add button for each tag
     int xoffset =0;
@@ -179,15 +180,52 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
         
         [_tagScrollView addSubview:button];
         button.tag = _buttonTagList.Count();
+        
         _buttonList.Add(button);
         _buttonTagList.Add(t);
         [self updateTagButtonState:t Button:button];
         
+        UIButton* buttonA =[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [buttonA addTarget:self action:@selector(tagButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        buttonA.frame = CGRectMake(0,0,width,height);
+        buttonA.hidden = true;
+        
+        [buttonA setTitle:name forState:UIControlStateNormal];
+        
+        
+        [buttonA setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        buttonA.layer.cornerRadius = 10;
+        buttonA.layer.borderWidth = 1;
+        buttonA.layer.borderColor = tagButtonBorderColor.CGColor;
+        buttonA.backgroundColor =tagColorMap[[NSNumber numberWithInt:t->ID]];;
+        
+        [self.view addSubview:buttonA];
+        buttonA.tag = button.tag;
+        _animatedButtonList.Add(buttonA);
+    
     }
     CGSize sz = _tagScrollView.contentSize;
     _tagScrollView.contentSize = CGSizeMake( xoffset, sz.height);
+        [self setAnimatedButtonPositions];
 
 }
+
+-(void)setAnimatedButtonPositions{
+    float y = 100;
+    float x = 50;
+    foreach( UIButton*, b , _animatedButtonList ){
+        Tag* t = _buttonTagList.Get((int)b.tag);
+        if ( currentPicTags.Contains(t)){
+            b.center = CGPointMake(x,y);
+            x+= b.frame.size.width + 4;
+            b.hidden = false;
+        }
+        else{
+            b.hidden = true;
+        }
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [UIView setAnimationsEnabled: NO];
     CATransition *transition = [CATransition animation];
@@ -207,10 +245,15 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
     {
         currentPicTags.Add(tag);
         SinglePicViewMediator::TagPic( self.asset.hash, tag );
+      
+        //[UIView animateWithDuration:0.25 animations:^{
+            [self setAnimatedButtonPositions];
+        //}];
     }
     else{
         currentPicTags.Remove(tag);
         SinglePicViewMediator::UnTagPic(self.asset.hash, tag );
+        [self setAnimatedButtonPositions];
     }
     
     [self updateTagButtonState:tag Button:button];
@@ -218,7 +261,7 @@ static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplec
 }
 -(void)updateTagButtonState:(Tag*)tag Button:(UIButton*)button{
     
-    if ( currentPicTags.Contains(tag)){
+   if ( currentPicTags.Contains(tag)){
         button.backgroundColor = tagButtonBackgroundSelected;
     }
     else

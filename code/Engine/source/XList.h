@@ -3,6 +3,8 @@
 #include"memory.h"
 
 #define foreach( t, v, list ) for ( int i=0; i < (list).Count(); i++ )for ( t v = (list).Get(i);v!=NULL;v=NULL)
+
+
 template <class T>
 class XList {
 public:
