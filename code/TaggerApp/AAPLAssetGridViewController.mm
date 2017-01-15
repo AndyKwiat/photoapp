@@ -549,7 +549,7 @@ void SetTagButtonState( Tag *tag, UIButton* button){
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add New Tag" message:@"Enter the name of your new tag:" preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
                       {
-                       //   bool added = TagsMenuMediator::AttemptAddTag ([alert.textFields.firstObject.text UTF8String]);
+                          bool added = TagsMenuMediator::AttemptAddTag ([alert.textFields.firstObject.text UTF8String]);
                           // todo show failure
                           [alert dismissViewControllerAnimated:YES completion:nil];
                           [self updateTagList:""];
