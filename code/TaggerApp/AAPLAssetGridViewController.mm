@@ -129,7 +129,7 @@ bool first = true;
     first = false;
     // parent view container
     CGFloat selfWidth = self.view.frame.size.width;
-    CGFloat newWidth = selfWidth-80;
+    CGFloat newWidth = selfWidth-40;
     CGRect rect = CGRectMake(newWidth/2-100/2,1,100,30);
     // button tag scrollview Container
     CGFloat scrollHt = 35;
@@ -142,10 +142,15 @@ bool first = true;
     // add the scrollview to the toolbar
     UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithCustomView:scrollView];
     NSMutableArray *items = [[NSMutableArray alloc] init];
-    [items addObject:newButton];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    negativeSpacer.width = -14;
+    [items addObject:negativeSpacer];
+
+    
        for ( id obj in self.toolbarItems){
         [items addObject:obj];
     }
+    [items addObject:newButton];
     [self setToolbarItems:items];
 
     [self updateTagList:""];

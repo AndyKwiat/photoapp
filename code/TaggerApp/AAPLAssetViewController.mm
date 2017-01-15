@@ -26,6 +26,7 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *playButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *space;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *trashButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *tagButton;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *imageRightWidthConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *imageLeftWidthConstraint;
 
@@ -137,12 +138,12 @@ void shadowAdd(UIButton *b ){
         
         // add the scrollview to the toolbar
         UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithCustomView:scrollView];
-        NSMutableArray *items = [[NSMutableArray alloc] init];
-        [items addObject:newButton];
-        for ( id obj in self.toolbarItems){
-            [items addObject:obj];
-        }
-        [self setToolbarItems:items];
+      
+        UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        negativeSpacer.width = -14;
+        self.toolbarItems = @[negativeSpacer, self.tagButton, newButton, self.trashButton];
+
+      
     }
     
     XList< Tag*> tagList;
@@ -364,11 +365,11 @@ float firstX,firstY;
 }
 
 - (void)showPlaybackToolbar {
-    self.toolbarItems = @[self.playButton, self.space, self.trashButton];
+    self.toolbarItems = @[self.playButton, self.space, self.tagButton, self.trashButton];
 }
 
 - (void)showStaticToolbar {
-    self.toolbarItems = @[self.space, self.trashButton];
+    self.toolbarItems = @[self.space, self.tagButton, self.trashButton];
 }
 
 - (CGSize)targetSize {
