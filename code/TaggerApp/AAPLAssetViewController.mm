@@ -118,6 +118,31 @@ void shadowAdd(UIButton *b ){
     b.layer.shadowRadius = 2;
     b.layer.shadowOffset = CGSizeMake(1.2f, 1.2f);
 }
+
+
+- (IBAction)handleTagButtonPressed:(id)sender{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add New Tag" message:@"Enter the name of your new tag:" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                      {
+                          //   bool added = TagsMenuMediator::AttemptAddTag ([alert.textFields.firstObject.text UTF8String]);
+                          // todo show failure
+                          [alert dismissViewControllerAnimated:YES completion:nil];
+                          [self reloadImage];
+                          
+                      }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+                      {
+                          [alert dismissViewControllerAnimated:YES completion:nil];
+                      }]];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Tag";
+    }];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+}
+
 -(void)addTagButtons{
     
     // add bottom tag selection scrollview
