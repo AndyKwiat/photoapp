@@ -4,7 +4,7 @@
 namespace SinglePicViewMediator{
 	void TagPic( PicId pic,Tag * tag );
 	void UnTagPic( PicId pic,Tag * tag );
-	void GetTagsWithPic( PicId pic, XList<Tag*> *listTags);
+	void GetTagsWithPic( PicId pic, XList<Tag*> *listTags, const char *localID);
 	bool PicHasTag( PicId pic, const Tag* tag );
 	void GetAllTags( XList<Tag*> *list );
 }

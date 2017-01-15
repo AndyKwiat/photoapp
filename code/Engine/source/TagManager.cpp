@@ -10,7 +10,9 @@ void TagManager::RemoveTag(  Tag *tag )
 }
  void TagManager::AddTag( const XString &str )
  {
-     m_Tags.Add(new Tag(str));
+     Tag *tag = new Tag(str);
+     tag->ID = m_Tags.Count();
+     m_Tags.Add(tag);
  }
 
 void TagManager::WriteToStream(XStream *stream)
@@ -21,5 +23,9 @@ void TagManager::WriteToStream(XStream *stream)
 void TagManager::ReadFromStream(XStream *stream)
 {
     stream->ReadPtrList(&m_Tags);
+    int j = 0;
+    foreach(Tag*, t, m_Tags){
+        t->ID = j++;
+    }
 }
 

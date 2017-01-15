@@ -87,10 +87,10 @@ namespace SinglePicViewMediator{
         SaveTagManager();
     }
     
-    
-    
-    
-    void GetTagsWithPic( PicId pic, XList<Tag*> *listTags){
+    void GetTagsWithPic( PicId pic, XList<Tag*> *listTags, const char *localID){
+        if ( localID != NULL ){
+            assetMapper.Add(pic, localID);
+        }
         // PERFORMANCE TODO
         foreach ( Tag* , t, *tagManager.GetAllTags()){
             const XList<PicId> &list = t->GetTaggedPics();

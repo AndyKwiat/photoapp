@@ -14,6 +14,7 @@ class AssetMapper
 public:
     void Add(PicId pid, const char *str )
     {
+        
         if ( ids.Contains(pid))
             return;
         ids.Add(pid);
@@ -21,6 +22,7 @@ public:
     }
     void GetLocalIdentifiers( XList<PicId> &picsToGet, XList<const XString*> &listToFill)
     {
+        // TODO performance use hashmaps
         const XString *localIdArray = localIdentifiers.GetRawData();
         for ( int i=0; i < picsToGet.Count(); i++ )
         {

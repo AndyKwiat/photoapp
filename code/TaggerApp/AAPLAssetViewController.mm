@@ -48,7 +48,8 @@
 extern UIColor *tagButtonBackground ;
 extern UIColor *tagButtonBackgroundSelected;
 extern UIColor *tagButtonBorderColor;
-extern NSMutableDictionary *tagColorMap;
+extern UIColor *tagColors[];
+extern int MAX_TAG_COLORS;
 
 static NSString * const AdjustmentFormatIdentifier = @"com.example.apple-samplecode.SamplePhotosApp";
 
@@ -90,7 +91,7 @@ static XList<UIButton*> _animatedButtonList;
     
     [self updateImage];
     currentPicTags.Clear();
-    SinglePicViewMediator::GetTagsWithPic(self.asset.hash,&currentPicTags);
+        SinglePicViewMediator::GetTagsWithPic(self.asset.hash,&currentPicTags,[self.asset.localIdentifier UTF8String]);
     [self addTagButtons];
     [self.view layoutIfNeeded];
    
@@ -125,7 +126,7 @@ void shadowAdd(UIButton *b ){
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add New Tag" message:@"Enter the name of your new tag:" preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
                       {
-                          //   bool added = TagsMenuMediator::AttemptAddTag ([alert.textFields.firstObject.text UTF8String]);
+                          TagsMenuMediator::AttemptAddTag ([alert.textFields.firstObject.text UTF8String]);
                           // todo show failure
                           [alert dismissViewControllerAnimated:YES completion:nil];
                           [self reloadImage];
@@ -233,7 +234,7 @@ void shadowAdd(UIButton *b ){
         buttonA.layer.cornerRadius = 10;
         buttonA.layer.borderWidth = 1;
         buttonA.layer.borderColor = tagButtonBorderColor.CGColor;
-        buttonA.backgroundColor =tagColorMap[[NSNumber numberWithInt:t->ID]];;
+        buttonA.backgroundColor =tagColors[t->ID % MAX_TAG_COLORS ];
         
         [self.view addSubview:buttonA];
         buttonA.tag = button.tag;
@@ -307,7 +308,7 @@ void shadowAdd(UIButton *b ){
         button.backgroundColor = tagButtonBackgroundSelected;
     }
     else
-        button.backgroundColor = button.backgroundColor = tagColorMap[[NSNumber numberWithInt:tag->ID]];;
+        button.backgroundColor = tagColors[ tag->ID % MAX_TAG_COLORS];
     
 }
 

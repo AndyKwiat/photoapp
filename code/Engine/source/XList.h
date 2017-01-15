@@ -2,7 +2,7 @@
 #include"debugfuncs.h"
 #include"memory.h"
 
-#define foreach( t, v, list ) for ( int i=0; i < (list).Count(); i++ )for ( t v = (list).Get(i);v!=NULL;v=NULL)
+#define foreach( t, v, list ) for ( int i_ter=0; i_ter < (list).Count(); i_ter++ )for ( t v = (list).Get(i_ter);v!=NULL;v=NULL)
 
 
 template <class T>

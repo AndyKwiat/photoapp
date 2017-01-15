@@ -51,8 +51,9 @@ UIColor *tagColors[]={
       [UIColor colorWithHue:23 / 360.0 saturation:1.0 brightness:brightness alpha:1.0],
     
     };
+int MAX_TAG_COLORS = sizeof(tagColors)/ sizeof(UIColor*);
 
-NSMutableDictionary *tagColorMap=[[NSMutableDictionary alloc] init];
+//NSMutableDictionary *tagColorMap=[[NSMutableDictionary alloc] init];
 
 void shadowAdd(UIButton *b );
 
@@ -125,7 +126,11 @@ bool first = true;
     
     // add bottom tag selection stuff
     if ( !first )
-        return;
+    {
+         [self updateTagList:""];
+                return;
+    }
+
     first = false;
     // parent view container
     CGFloat selfWidth = self.view.frame.size.width;
@@ -226,8 +231,8 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
         [button setTitle:name forState:UIControlStateNormal];
          button.tag = _buttonTagList.Count();
         t->ID = _buttonTagList.Count();
-        const int maxColors = sizeof(tagColors)/ sizeof(UIColor*);
-        tagColorMap[[NSNumber numberWithInt:t->ID]] = tagColors[t->ID % maxColors];
+
+       // tagColorMap[[NSNumber numberWithInt:t->ID]] = tagColors[t->ID % maxColors];
         SetTagButtonState( t,button);
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         button.layer.cornerRadius = 10;
@@ -264,7 +269,7 @@ UIColor *tagButtonBorderColor =[UIColor colorWithRed:0 green:92.0/255.0 blue:0.8
 }
 
 void SetTagButtonState( Tag *tag, UIButton* button){
-    button.backgroundColor = tagColorMap[[NSNumber numberWithInt:tag->ID]];
+    button.backgroundColor = tagColors[tag->ID % MAX_TAG_COLORS ];//tagColorMap[[NSNumber numberWithInt:tag->ID]];
     if ( GridViewController::IsTagSelected(tag)){
         button.backgroundColor = tagButtonBackgroundSelected;
     }
@@ -363,7 +368,7 @@ void SetTagButtonState( Tag *tag, UIButton* button){
     
     
     XList<Tag*> tags;
-    SinglePicViewMediator::GetTagsWithPic(cell.assetHash, &tags);
+    SinglePicViewMediator::GetTagsWithPic(cell.assetHash, &tags,NULL);
     for( int i=0; i < colorList->Count(); i++ ){
         Tag* tag = NULL;
         if ( i < tags.Count())
@@ -377,7 +382,7 @@ void SetTagButtonState( Tag *tag, UIButton* button){
         }
         else{
             view.hidden = false;
-            view.backgroundColor = tagColorMap[[NSNumber numberWithInt:tag->ID]];
+            view.backgroundColor = tagColors[tag->ID % MAX_TAG_COLORS ];
         }
     }
 
